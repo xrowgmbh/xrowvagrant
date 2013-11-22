@@ -28,7 +28,7 @@ yum -y install drbd83 kmod-drbd83
 yum -y install gfs2-utils nfs-utils rpcbind cman rgmanager lvm2-cluster
 
 yum -y install xrow-zend xrow-zend-packages
-yum -y --enablerepo=xrow-opt update ezcluster
+yum -y --enablerepo=xrow-opt install ezcluster
 yum -y install ezpublish
 yum -y install ezlupdate
 yum -y install jmeter
