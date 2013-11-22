@@ -15,6 +15,8 @@ yum -y install http://elrepo.org/linux/elrepo/el6/x86_64/RPMS/elrepo-release-6-4
 yum -y install http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm
 yum -y install ${RPM_XROW}
 
+yum -y --disablerepo=* --enablerepo=xrow update xrow-repo
+
 yum -y install python-devel gcc libyaml libyaml-devel
 
 yum -y install redhat-lsb which
@@ -26,7 +28,7 @@ yum -y install drbd83 kmod-drbd83
 yum -y install gfs2-utils nfs-utils rpcbind cman rgmanager lvm2-cluster
 
 yum -y install xrow-zend xrow-zend-packages
-yum -y install ezcluster
+yum -y --enablerepo=xrow-opt update ezcluster
 yum -y install ezpublish
 yum -y install ezlupdate
 yum -y install jmeter
