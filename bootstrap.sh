@@ -45,8 +45,8 @@ yum install newrelic-php5
 yum -y remove mlocate
 
 yum -y install ruby ec2-ami-tools ec2-api-tools
-
 curl https://github.com/timkay/aws/raw/master/aws -o /bin/aws
+
 chmod +x /bin/aws
 
 cat <<EOL > /etc/motd
