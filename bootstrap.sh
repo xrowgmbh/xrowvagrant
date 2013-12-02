@@ -3,6 +3,7 @@
 RPM_EPEL=http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 RPM_XROW=http://packages.xrow.com/redhat/6/xrow-repo-2.1-24.noarch.rpm
 
+yum -y update
 yum -y groupinstall Base
 
 yum -y install openssh-server grub yum-priorities
@@ -34,6 +35,9 @@ yum -y install ezlupdate
 yum -y install jmeter
 
 yum -y install emacs
+
+yum -y yum install dkms
+/etc/init.d/vboxadd setup
 
 yum install newrelic-php5
 
