@@ -1,7 +1,7 @@
 @echo off
 
-CALL vagrant destroy
-CALL rmdir /S /Q C:\Users\bjoernd\.vagrant.d\boxes\centos64
+CALL vagrant destroy --force
+CALL rmdir /S /Q %USERPROFILE%\.vagrant.d\boxes\centos64
 CALL vagrant up
 rem 0.10 is not yet released so isntall from source https://github.com/dotless-de/vagrant-vbguest/issues/88
 CALL vagrant plugin install --plugin-source https://rubygems.org --plugin-prerelease vagrant-vbguest
