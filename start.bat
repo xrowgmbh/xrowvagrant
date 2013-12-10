@@ -1,6 +1,7 @@
 @echo off
 
 CALL vagrant destroy --force
+CALL rmdir /S /Q .vagrant
 CALL rmdir /S /Q %USERPROFILE%\.vagrant.d\boxes\centos64
 CALL vagrant up
 CALL vagrant reload
