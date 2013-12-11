@@ -253,4 +253,7 @@ fi
 
 EOL
 
-yum -y clean all
+yum clean all
+
+useradd -G apache vagrant
+useradd -G ec2-user vagrant

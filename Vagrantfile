@@ -11,8 +11,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box"
 
     config.ssh.forward_agent = true
-    config.vbguest.auto_update = false
-	config.vbguest.no_remote = true
     config.vm.network :forwarded_port, host: 80, guest: 80
     config.vm.network :forwarded_port, host: 8080, guest: 8080
     config.vm.network :forwarded_port, host: 443, guest: 443
