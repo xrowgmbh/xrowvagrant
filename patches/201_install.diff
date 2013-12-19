@@ -1,0 +1,11 @@
+--- vendor/ezsystems/ezpublish-kernel/eZ/Bundle/EzPublishLegacyBundle/SetupWizard/ConfigurationConverter.php    2013-12-19 00:57:37.577410791 +0000
++++ vendor/ezsystems/ezpublish-kernel/eZ/Bundle/EzPublishLegacyBundle/SetupWizard/ConfigurationConverter.php.fix        2013-12-19 00:58:28.441411020 +0000
+@@ -65,8 +65,8 @@
+         if ( !is_array( $siteList ) || empty( $siteList ) )
+             throw new InvalidArgumentException( 'siteList', 'can not be empty' );
+ 
+-        if ( !in_array( $adminSiteaccess, $siteList ) )
+-            throw new InvalidArgumentException( "adminSiteaccess", "Siteaccess $adminSiteaccess wasn't found in SiteAccessSettings.AvailableSiteAccessList" );
+ 
+         $settings['ezpublish']['siteaccess']['list'] = $siteList;
+         $settings['ezpublish']['siteaccess']['groups'] = array();
