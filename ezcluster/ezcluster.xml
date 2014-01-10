@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aws github-token="cfe67fdcc2ab2b65b7f00ace13e921e1ee74f7df" revision="1">
+    <cluster lb="xrow" update="yes">
+		<instance name="localhost">
+			<role>web</role>
+			<role>admin</role>
+			<role>storage</role>
+			<role>solr</role>
+			<role>database</role>
+			<role>dev</role>
+        </instance>
+		<rpm>ezfind-solr27</rpm>
+		<database-setting name="wait_timeout">50</database-setting>
+		<environment name="symfony" docroot="web"> 
+		    <bootstrap>
+                <script><![CDATA[
+#!/bin/sh
+rm -Rf *
+composer.phar create-project symfony/framework-standard-edition . 2.4.* --prefer-dist --no-interaction
+cat <<EOL > app/config/parameters.yml
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_mysql
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: symfony
+    database_user: root
+    database_password: null
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    locale: en
+    secret: c60211546d9737d16d4a34e90fb9f7b1d69bacba
+    database_path: null
+EOL
+composer.phar install --no-interaction
+mv web/app.php web/index.php
+mv web/app_dev.php web/index_dev.php
+rm web/app.php web/config.php
+sed -i "s/\/\/umask(/umask(/g" ezpublish/console
+sed -i "s/\/\/umask(/umask(/g" web/index_dev.php
+sed -i "s/\/\/umask(/umask(/g" web/index.php
+find app/{cache,logs,config} -type d | sudo xargs chmod -R 777
+find app/{cache,logs,config} -type f | sudo xargs chmod -R 666
+]]></script>
+            </bootstrap>
+			<database dsn="mysql://xrow:openpass@localhost/symfony"/>
+            <hostname>symfony.*</hostname>
+        </environment>
+    </cluster>
+</aws>

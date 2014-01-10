@@ -27,7 +27,6 @@ yum -y install cloud-init
 # needed for ez cluster
 yum -y install drbd83 kmod-drbd83
 yum -y install gfs2-utils nfs-utils rpcbind cman rgmanager lvm2-cluster
-
 yum -y install xrow-zend xrow-zend-packages
 yum -y --enablerepo=xrow-opt install ezcluster
 yum -y install ezpublish
@@ -40,6 +39,14 @@ yum -y yum install dkms
 /etc/init.d/vboxadd setup
 
 yum install newrelic-php5
+
+yum -y install redis
+pecl install redis
+cat <<EOL > /usr/local/zend/etc/conf.d/redis.ini
+extension=redis.so
+EOL
+
+
 
 # mlocate will crawl /mnt/nas
 yum -y remove mlocate
@@ -255,5 +262,6 @@ EOL
 
 yum clean all
 
-useradd -G apache vagrant
-useradd -G ec2-user vagrant
+usermod -a -G apache ec2-user
+usermod -a -G apache vagrant
+usermod -a -G ec2-user vagrant
