@@ -8,14 +8,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.box = "centos64"
     config.vm.provision :shell, :path => "bootstrap.sh"
 
-    config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box"
+    config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-puppet.box"
 
     config.ssh.forward_agent = true
     config.vm.network :forwarded_port, host: 80, guest: 80
     config.vm.network :forwarded_port, host: 8080, guest: 8080
     config.vm.network :forwarded_port, host: 443, guest: 443
+    config.vm.network :forwarded_port, host: 9200, guest: 9200
 #   config.vm.network :forwarded_port, host: 10137, guest: 10137
 #   config.vm.network :forwarded_port, host: 20080, guest: 20080
+
     config.vm.synced_folder "ezcluster", "/etc/ezcluster"
 #   config.vm.synced_folder "sites", "/var/www/sites"
 

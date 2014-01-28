@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 RPM_EPEL=http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-RPM_XROW=http://packages.xrow.com/redhat/6/xrow-repo-2.1-24.noarch.rpm
+RPM_XROW=http://packages.xrow.com/redhat/6/xrow-repo-2.2-40.noarch.rpm
 
 yum -y update
 yum -y groupinstall Base
@@ -12,10 +12,7 @@ yum -y install openssh-server grub yum-priorities
 yum -y install dhclient
 
 yum -y install ${RPM_EPEL}
-yum -y install http://elrepo.org/linux/elrepo/el6/x86_64/RPMS/elrepo-release-6-4.el6.elrepo.noarch.rpm
-yum -y install http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm
 yum -y install ${RPM_XROW}
-
 yum -y --disablerepo=* --enablerepo=xrow update xrow-repo
 
 yum -y install python-devel gcc libyaml libyaml-devel
@@ -25,31 +22,28 @@ yum -y install redhat-lsb which
 yum -y install cloud-init
 
 # needed for ez cluster
-yum -y install drbd83 kmod-drbd83
-yum -y install gfs2-utils nfs-utils rpcbind cman rgmanager lvm2-cluster
+#yum -y install gfs2-utils nfs-utils rpcbind lvm2-cluster
 yum -y install xrow-zend xrow-zend-packages
 yum -y --enablerepo=xrow-opt install ezcluster
 yum -y install ezpublish
 yum -y install ezlupdate
-yum -y install jmeter
 
-yum -y install emacs
-
-yum -y yum install dkms
 /etc/init.d/vboxadd setup
 
-yum install newrelic-php5
-
 yum -y install redis
-pecl install redis
+
+/usr/local/zend/bin/pecl install redis
 cat <<EOL > /usr/local/zend/etc/conf.d/redis.ini
 extension=redis.so
 EOL
+/usr/local/zend/bin/pear channel-discover pear.twig-project.org
+/usr/local/zend/bin/pear install twig/CTwig
+cat <<EOL > /usr/local/zend/etc/conf.d/twig.so
+extension=twig.so
+EOL
 
-
-
-# mlocate will crawl /mnt/nas
-yum -y remove mlocate
+yum install https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.0.0.RC1.noarch.rpm
+/sbin/chkconfig --add elasticsearch
 
 yum -y install ruby ec2-ami-tools ec2-api-tools
 curl https://github.com/timkay/aws/raw/master/aws -o /bin/aws

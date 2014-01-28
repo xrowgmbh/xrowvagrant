@@ -15,8 +15,9 @@
 		    <bootstrap>
                 <script><![CDATA[
 #!/bin/sh
+export http_proxy=http://192.0.0.1:8080/
 rm -Rf *
-composer.phar create-project symfony/framework-standard-edition . 2.4.* --prefer-dist --no-interaction
+composer.phar -vvv create-project symfony/framework-standard-edition . 2.4.* --prefer-dist --no-interaction
 cat <<EOL > app/config/parameters.yml
 # This file is auto-generated during the composer install
 parameters:
@@ -34,13 +35,97 @@ parameters:
     secret: c60211546d9737d16d4a34e90fb9f7b1d69bacba
     database_path: null
 EOL
-composer.phar install --no-interaction
+cat <<EOL > composer.json
+{
+    "name": "symfony/framework-standard-edition",
+    "license": "MIT",
+    "type": "project",
+    "description": "The \"Symfony Standard Edition\" distribution",
+    "autoload": {
+        "psr-0": { "": "src/" }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/xrowgmbh/EzPublishToolsBundle"
+        }
+    ],
+    "require": {
+        "xrow/ezpublish-tools-bundle": "dev-master",
+        "php": ">=5.3.3",
+        "symfony/symfony": "~2.4",
+        "doctrine/orm": "~2.2,>=2.2.3",
+        "doctrine/doctrine-bundle": "~1.2",
+        "twig/extensions": "~1.0",
+        "symfony/assetic-bundle": "~2.3",
+        "symfony/swiftmailer-bundle": "~2.3",
+        "symfony/monolog-bundle": "~2.4",
+        "sensio/distribution-bundle": "~2.3",
+        "sensio/framework-extra-bundle": "~3.0",
+        "sensio/generator-bundle": "~2.3",
+        "incenteev/composer-parameter-handler": "~2.0"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+        ],
+        "post-update-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+        ]
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "extra": {
+        "symfony-app-dir": "app",
+        "symfony-web-dir": "web",
+        "incenteev-parameters": {
+            "file": "app/config/parameters.yml"
+        },
+        "branch-alias": {
+            "dev-master": "2.4-dev"
+        }
+    }
+}
+EOL
+composer.phar -vvv install --no-interaction
 mv web/app.php web/index.php
 mv web/app_dev.php web/index_dev.php
-rm web/app.php web/config.php
-sed -i "s/\/\/umask(/umask(/g" ezpublish/console
+rm web/config.php
+sed -i "s/\/\/umask(/umask(/g" app/console
 sed -i "s/\/\/umask(/umask(/g" web/index_dev.php
 sed -i "s/\/\/umask(/umask(/g" web/index.php
+sed -i "s/app/index/g" web/.htaccess
+
+cat <<EOL > web/index_dev.php
+<?php
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Debug\Debug;
+
+umask(0000);
+
+\$loader = require_once __DIR__.'/../app/bootstrap.php.cache';
+Debug::enable();
+
+require_once __DIR__.'/../app/AppKernel.php';
+
+\$kernel = new AppKernel('dev', true);
+\$kernel->loadClassCache();
+\$request = Request::createFromGlobals();
+\$response = \$kernel->handle(\$request);
+\$response->send();
+\$kernel->terminate(\$request, \$response);
+EOL
+
 find app/{cache,logs,config} -type d | sudo xargs chmod -R 777
 find app/{cache,logs,config} -type f | sudo xargs chmod -R 666
 ]]></script>
