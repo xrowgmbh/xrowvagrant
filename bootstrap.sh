@@ -36,11 +36,18 @@ yum -y install redis
 cat <<EOL > /usr/local/zend/etc/conf.d/redis.ini
 extension=redis.so
 EOL
+/usr/local/zend/bin/pecl install xhprof
 /usr/local/zend/bin/pear channel-discover pear.twig-project.org
 /usr/local/zend/bin/pear install twig/CTwig
-cat <<EOL > /usr/local/zend/etc/conf.d/twig.so
+cat <<EOL > /usr/local/zend/etc/conf.d/twig.ini
 extension=twig.so
 EOL
+
+pecl install xhprof-beta
+cat <<EOL > /usr/local/zend/etc/conf.d/xhprof.ini
+extension=xhprof.so
+EOL
+mv /usr/local/zend/etc/conf.d/debugger.ini /usr/local/zend/etc/conf.d/debugger.ini.disabled
 
 yum install https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.0.0.RC1.noarch.rpm
 /sbin/chkconfig --add elasticsearch
