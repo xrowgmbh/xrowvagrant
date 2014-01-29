@@ -42,6 +42,7 @@ mv web/app_dev.php web/index_dev.php
 cp /etc/ezcluster/templates/index_dev.php web/index_dev.php
 cp /etc/ezcluster/templates/composer.symfony.json composer.json
 cp /etc/ezcluster/templates/AppKernel.php app/AppKernel.php
+cp /etc/ezcluster/templates/routing_dev.yml app/config/routing_dev.yml
 composer.phar -vvv install --no-interaction
 composer.phar -vvv update --no-interaction
 sed -i "s/\/\/umask(/umask(/g" app/console

@@ -4,7 +4,7 @@ CALL vagrant destroy --force >> vagrant.log
 CALL rmdir /S /Q .vagrant
 CALL rmdir /S /Q %USERPROFILE%\.vagrant.d\boxes\centos64
 CALL vagrant up >> vagrant.log
-CALL vagrant reload up >> vagrant.log
+CALL vagrant reload >> vagrant.log
 CALL vagrant plugin install --plugin-source https://rubygems.org --plugin-prerelease vagrant-vbguest >> vagrant.log
 CALL vagrant vbguest --do rebuild >> vagrant.log
 CALL vagrant reload >> vagrant.log
