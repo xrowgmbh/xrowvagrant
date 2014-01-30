@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aws github-token="cfe67fdcc2ab2b65b7f00ace13e921e1ee74f7df" revision="1">
+    <cluster lb="xrow" update="yes">
+		<instance name="localhost">
+			<role>web</role>
+			<role>admin</role>
+			<!-- <role>storage</role> -->
+			<role>solr</role>
+			<role>database</role>
+			<role>dev</role>
+        </instance>
+		<rpm>ezfind-solr27</rpm>
+		<database-setting name="wait_timeout">50</database-setting>
+		<environment name="symfony" docroot="web"> 
+		    <bootstrap>
+                <script><![CDATA[
+#!/bin/sh
+
+SOLR_URL="[SOLR_URL]"
+DATABASE_SERVER="[DATABASE_SERVER]"
+DATABASE_USER="[DATABASE_USER]"
+DATABASE_PASSWORD="[DATABASE_PASSWORD]"
+DATABASE_NAME="[DATABASE_NAME]"
+DFS_DATABASE_SERVER="[DFS_DATABASE_SERVER]"
+DFS_DATABASE_USER="[DFS_DATABASE_USER]"
+DFS_DATABASE_PASSWORD="[DFS_DATABASE_PASSWORD]"
+DFS_DATABASE_NAME="[DFS_DATABASE_NAME]"
+DFS_MOUNT="[DFS_MOUNT]"
+AWS_KEY="[AWS_KEY]"
+AWS_SECRETKEY="[AWS_SECRETKEY]"
+AWS_ACCOUNTID="[AWS_ACCOUNTID]"
+PACKAGES="http://packages.ez.no/ezpublish/4.7/4.7.0/"
+SCRIPT=`readlink -f $0`
+SCRIPTDIR=$(dirname ${SCRIPT})
+
+source "/etc/ezcluster/scripts/symfony.sh"
+]]></script>
+            </bootstrap>
+			<database dsn="mysql://xrow:openpass@localhost/symfony"/>
+            <hostname>symfony.*</hostname>
+        </environment>
+		<environment name="ezpublish" docroot="web"> 
+		    <bootstrap>
+                <script><![CDATA[
+#!/bin/sh
+
+SOLR_URL="[SOLR_URL]"
+DATABASE_SERVER="[DATABASE_SERVER]"
+DATABASE_USER="[DATABASE_USER]"
+DATABASE_PASSWORD="[DATABASE_PASSWORD]"
+DATABASE_NAME="[DATABASE_NAME]"
+DFS_DATABASE_SERVER="[DFS_DATABASE_SERVER]"
+DFS_DATABASE_USER="[DFS_DATABASE_USER]"
+DFS_DATABASE_PASSWORD="[DFS_DATABASE_PASSWORD]"
+DFS_DATABASE_NAME="[DFS_DATABASE_NAME]"
+DFS_MOUNT="[DFS_MOUNT]"
+AWS_KEY="[AWS_KEY]"
+AWS_SECRETKEY="[AWS_SECRETKEY]"
+AWS_ACCOUNTID="[AWS_ACCOUNTID]"
+PACKAGES="http://packages.ez.no/ezpublish/4.7/4.7.0/"
+SCRIPT=`readlink -f $0`
+SCRIPTDIR=$(dirname ${SCRIPT})
+
+source "/etc/ezcluster/scripts/master.sh"
+]]></script>
+            </bootstrap>
+			<database dsn="mysql://xrow:openpass@localhost/master"/>
+            <hostname>master.*</hostname>
+        </environment>
+		<environment name="hannover.de"> 
+		    <bootstrap>
+                <script><![CDATA[
+#!/bin/sh
+
+SOLR_URL="[SOLR_URL]"
+DATABASE_SERVER="[DATABASE_SERVER]"
+DATABASE_USER="[DATABASE_USER]"
+DATABASE_PASSWORD="[DATABASE_PASSWORD]"
+DATABASE_NAME="[DATABASE_NAME]"
+DFS_DATABASE_SERVER="[DFS_DATABASE_SERVER]"
+DFS_DATABASE_USER="[DFS_DATABASE_USER]"
+DFS_DATABASE_PASSWORD="[DFS_DATABASE_PASSWORD]"
+DFS_DATABASE_NAME="[DFS_DATABASE_NAME]"
+DFS_MOUNT="[DFS_MOUNT]"
+AWS_KEY="[AWS_KEY]"
+AWS_SECRETKEY="[AWS_SECRETKEY]"
+AWS_ACCOUNTID="[AWS_ACCOUNTID]"
+PACKAGES="http://packages.ez.no/ezpublish/4.7/4.7.0/"
+SCRIPT=`readlink -f $0`
+SCRIPTDIR=$(dirname ${SCRIPT})
+SVN_USER="hannover_svn"
+SVN_PASS="3edc4rfv"
+INSTANCE="live"
+BRANCH="https://svn.xrow.net/svn/hannover/trunk/"
+
+echo t|svn --username hannover_svn --password 3edc4rfv --quiet --no-auth-cache export --force https://svn.xrow.net/svn/hannover/trunk/extension/hannover/bin/sh/setup.sh ./setup.sh
+echo t|svn --username hannover_svn --password 3edc4rfv --quiet --no-auth-cache export --force https://svn.xrow.net/svn/hannover/trunk/extension/hannover/bin/sh/addons.sh ./addons.sh
+source "${SCRIPTDIR}/setup.sh"
+]]></script>
+            </bootstrap>
+			<database dsn="mysql://root@192.168.0.1/hannover_neu_2014"/>
+			<storage dsn="mysql://root@192.168.0.1/cluster_live_db" mount="/tmp/ez"/>
+            <hostname>hannover.*</hostname>
+        </environment>
+		<environment name="revive"> 
+		    <bootstrap>
+                <script><![CDATA[
+#!/bin/sh
+
+SOLR_URL="[SOLR_URL]"
+DATABASE_SERVER="[DATABASE_SERVER]"
+DATABASE_USER="[DATABASE_USER]"
+DATABASE_PASSWORD="[DATABASE_PASSWORD]"
+DATABASE_NAME="[DATABASE_NAME]"
+DFS_DATABASE_SERVER="[DFS_DATABASE_SERVER]"
+DFS_DATABASE_USER="[DFS_DATABASE_USER]"
+DFS_DATABASE_PASSWORD="[DFS_DATABASE_PASSWORD]"
+DFS_DATABASE_NAME="[DFS_DATABASE_NAME]"
+DFS_MOUNT="[DFS_MOUNT]"
+AWS_KEY="[AWS_KEY]"
+AWS_SECRETKEY="[AWS_SECRETKEY]"
+AWS_ACCOUNTID="[AWS_ACCOUNTID]"
+PACKAGES="http://packages.ez.no/ezpublish/4.7/4.7.0/"
+SCRIPT=`readlink -f $0`
+SCRIPTDIR=$(dirname ${SCRIPT})
+
+source "/etc/ezcluster/scripts/revive.sh"
+]]></script>
+            </bootstrap>
+			<database dsn="mysql://revive:9LPSRrgcCPgTZmFE@localhost/revive"/>
+            <hostname>revive.*</hostname>
+        </environment>
+    </cluster>
+</aws>

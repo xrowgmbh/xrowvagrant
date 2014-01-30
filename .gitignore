@@ -2,3 +2,5 @@
 *.box
 vagrant.log
 id_rsa
+ezcluster/crontab.ec2-user
+ezcluster/ezcluster.xml
