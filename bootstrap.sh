@@ -172,6 +172,14 @@ mkdir -p /home/ec2-user/.ssh
 cat <<EOL > /home/ec2-user/.ssh/authorized_keys
 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEAmKtOFjv/OLjzPP7VyjndOJJvxfzOIEfhJ+FXhiUVTOFFdTMXV2si0rqL3I8ot2mwM8bpeqvQr5zfng0CPOxl8ydkPsRY2qflyKWO19/nV3R/R5z29P+DgyQgfAiK5gbh2mMgdRkLn0MmE2GULKu7OGPUXIgRJpUTBVziySMAcSU= service@xrow.de
 EOL
+
+cat <<EOL > /home/ec2-user/.ssh/config
+Host *
+  ForwardAgent yes
+EOL
+chmod 600 /home/ec2-user/.ssh/config
+chown ec2-user:ec2-user /home/ec2-user/.ssh/config
+
 cat <<EOL > /home/ec2-user/.bash_profile
 # .bash_profile
 
@@ -186,13 +194,32 @@ PATH=\$PATH:\$HOME/bin
 
 export PATH
 
-SSHAGENT=/usr/bin/ssh-agent
-SSHAGENTARGS="-s"
-if [ -z "\$SSH_AUTH_SOCK" -a -x "\$SSHAGENT" ]; then
-  eval `\$SSHAGENT \$SSHAGENTARGS > /dev/null 2>&1`
-  trap "kill \$SSH_AGENT_PID" 0
+SSH_ENV="$HOME/.ssh/environment"
+
+function start_agent {
+    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "\${SSH_ENV}"
+    chmod 600 "\${SSH_ENV}"
+    . "\${SSH_ENV}" > /dev/null
+    /usr/bin/ssh-add;
+    if [ -f /vagrant/id_rsa ]; then
+        ssh-add /vagrant/id_rsa
+    elif [ -d /vagrant ]; then
+        echo "No key imported in ssh agent. You migh want to place a key in /vagrant/id_rsa"
+    fi
+}
+
+# Source SSH settings, if applicable
+
+if [ -f "${SSH_ENV}" ]; then
+    . "\${SSH_ENV}" > /dev/null
+    ps -ef | grep \${SSH_AGENT_PID} | grep ssh-agent\$ > /dev/null || {
+        start_agent;
+    }
+else
+    start_agent;
 fi
 EOL
+
 cat <<EOL > /home/ec2-user/.logout
 if [ \${SSH_AGENT_PID+1} == 1 ]; then
    ssh-add -D
