@@ -1,0 +1,188 @@
+# Protect files and directories from prying eyes.
+<Files ~ "(\.(ini\.append\.php|ini\.append|pl|sh|sql)|bin|cronjobs|update)$">
+  Order deny,allow
+  Deny from all
+</Files>
+
+SetEnv ENVIRONMENT "prod"
+SetEnv USE_DEBUGGING 1
+SetEnv USE_HTTP_CACHE 0
+SetEnv TRUSTED_PROXIES "127.0.0.1"
+SetEnv DEV_REMOTE_ADDR 10.0.2.2
+
+#Set the timezone
+SetEnv TZ Europe/Berlin
+#Other Locations see ref http://de2.php.net/manual/en/timezones.php
+#SetEnv TZ Europe/London
+#SetEnv TZ America/New_York
+#SetEnv TZ America/Los_Angeles
+#SetEnv TZ Etc/GMT+1
+#SetEnv TZ UTC
+
+# Set some options.
+Options -Indexes 
+Options +FollowSymLinks
+
+# Set the default handler.
+DirectoryIndex index.php
+
+# Override PHP settings.
+<IfModule mod_php5.c>
+  php_value magic_quotes_gpc                0
+  php_value register_globals                0
+  php_value session.auto_start              0
+</IfModule>
+
+<IfModule mod_php4.c>
+  php_value magic_quotes_gpc                0
+  php_value register_globals                0
+  php_value session.auto_start              0
+</IfModule>
+
+<IfModule sapi_apache2.c>
+  php_value magic_quotes_gpc                0
+  php_value register_globals                0
+  php_value session.auto_start              0
+</IfModule>
+
+<IfModule mod_deflate.c>
+ AddType text/css .css
+ AddType text/javascript .js
+ AddType text/xml .xml
+ AddType text/html .htm
+ AddType image/svg+xml .svg
+ AddType image/x-icon .ico
+ AddType audio/ogg .oga .ogg
+ AddType audio/mp4 .m4a
+ AddType video/ogg .ogv
+ AddType video/mp4 .mp4 .m4v
+ AddType video/webm .webm
+ AddType application/vnd.ms-fontobject .eot
+ AddType application/x-font-ttf .ttf .ttc
+ AddType application/x-font-otf .otf
+ AddType application/x-font-woff .woff
+
+ AddType     image/svg+xml              svg svgz
+ AddEncoding gzip                       svgz
+
+ 
+ # Do not set DEFLATE as a default for everything, since IE has Problems with zip downloads
+ AddOutputFilterByType DEFLATE text/html
+ AddOutputFilterByType DEFLATE text/plain
+ AddOutputFilterByType DEFLATE text/xml
+ AddOutputFilterByType DEFLATE text/javascript
+ AddOutputFilterByType DEFLATE text/css       
+ AddOutputFilterByType DEFLATE image/svg+xml
+ AddOutputFilterByType DEFLATE application/ms* application/vnd* application/postscript
+ AddOutputFilterByType DEFLATE application/xml
+ AddOutputFilterByType DEFLATE application/xhtml+xml
+ AddOutputFilterByType DEFLATE application/rss+xml
+ AddOutputFilterByType DEFLATE application/javascript
+ AddOutputFilterByType DEFLATE application/x-javascript
+ AddOutputFilterByType DEFLATE application/json
+ SetEnvIfNoCase Request_URI \.(og[gav]|mp4|m4a|webm|pdf|exe|t?gz|zip|bz2|sit|rar)$ no-gzip dont-vary
+</IfModule>
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(css|js|gif|jpg|png|swf|xml|ico|oga|m4a|ogv|mp4|webm|eot|ttf|otf|woff)$"> 
+        Header Set Pragma "public"
+        Header Set Cache-Control "public, must-revalidate, max-age=2592000"
+        Header Set Edge-control "!log-cookie,max-age=2592000,downstream-ttl=86400"
+        Header Set Age "0"
+    </FilesMatch>
+</IfModule>
+<IfModule mod_expires.c>
+    FileETag None
+    ExpiresActive Off
+</IfModule>
+
+<IfModule mod_headers.c>
+# if we have two server. to differ server 1 from server 2 set it in header (only if header mod is enabled)
+#Header add X-Server "WEB1"
+# Disable Varnish Support, if needed by sending an extra header to Varnish.
+# At the moment we you just have the option to disable it.
+#Header add X-Varnish-Control "disabled"
+</IfModule>
+
+# Various rewrite rules.
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+RewriteRule ^plesk-stat/webstat(.*) %{DOCUMENT_ROOT}/../statistics/webstat$1 [L]
+RewriteRule ^plesk-stat(.*) %{DOCUMENT_ROOT}/../statistics$1 [L]
+RewriteRule ^webstat-ssl(.*) %{DOCUMENT_ROOT}/../statistics/webstat-ssl$1 [L]
+RewriteRule ^webstat(.*) %{DOCUMENT_ROOT}/../statistics/webstat$1 [L]
+RewriteRule ^anon_ftpstat(.*) %{DOCUMENT_ROOT}/../statistics/anon_ftpstat$1 [L]
+RewriteRule ^ftpstat(.*) %{DOCUMENT_ROOT}/../statistics/ftpstat$1 [L]
+RewriteRule ^error_docs(.*) %{DOCUMENT_ROOT}/../error_docs$1 [L]
+
+#The Mainanace swtich... Enter you IP and only you will see your page... 
+# Use %{HTTP:X-FORWARDED-FOR} if you have Varnish infront, use %{REMOTE_ADDR} if you have no Varnish infront.
+#RewriteCond %{HTTP:X-FORWARDED-FOR} !^81\.14\.224\.000$
+#RewriteCond %{REQUEST_URI} !^/sorry.html$
+#RewriteRule (.*) /sorry.html [R,L]
+#RewriteCond %{REQUEST_URI} ^/sorry.html$
+#RewriteRule .* - [L]
+
+#Clustered setup switch
+#RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
+#RewriteRule !index_cluster.php - [C]
+#RewriteRule ^var/([^/]+/)?(storage/images(-versioned)?|cache/public)/.* index_cluster.php
+
+RewriteCond %{HTTP_HOST} ^webdav\..*
+RewriteRule ^(.*) webdav.php [L]
+
+RewriteCond %{HTTP_HOST} ^soap\..*
+RewriteRule ^(.*) soap.php [L]
+
+#SEO tweak. Redirect all domains except for the main domain 
+##LB sometimes comes without a http host header: RewriteCond %{HTTP_HOST} !^$ [NC]
+
+#RewriteCond %{HTTP_HOST} !^admin\..*$ [NC]
+#RewriteCond %{HTTP_HOST} !^www\. [NC]
+#RewriteCond %{HTTP_HOST} !^[0-9]{0,3}\.[0-9]{0,3}\.[0-9]{0,3}\.[0-9]{0,3}$ [NC]
+#RewriteCond %{HTTP_HOST} !^$ [NC]
+#RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [L,R=301]
+
+
+# Rewrite URLs with index.php/*
+#RewriteRule ^index.php/(.*)$ http://%{HTTP_HOST}/$1 [L,R=302]
+
+
+#eZ Publish POP up debug enable if needed
+#RewriteRule ^(var/cache|var/[^/]+/)cache/debug.html.* - [L]
+
+# Platform for Privacy Preferences Project ( P3P ) related files for Internet Explorer
+# More info here : http://en.wikipedia.org/wiki/P3p
+RewriteRule ^w3c/p3p\.xml - [L]
+
+# Web general
+RewriteRule ^(.*)favicon\.ico - [L]
+RewriteRule ^robots\.txt - [L]
+RewriteRule ^crossdomain\.xml - [L]
+RewriteRule ^apple-touch-icon\.png - [L]
+RewriteRule ^bundles/ - [L]
+RewriteRule ^css/.*\.css - [L]
+RewriteRule ^js/.*\.js - [L]
+ 
+
+# eZ Publish
+RewriteRule ^api/ index_rest.php [L]
+RewriteRule ^index_rest\.php - [L]
+Rewriterule ^extension/[^/]+/design/[^/]+/(stylesheets|images|lib|javascripts?|flash)/.* - [L]
+Rewriterule ^var/([^/]+/)?storage/(images|images-versioned|sitemap)/.* - [L]
+RewriteRule ^var/([^/]+/)?cache/(texttoimage|public)/.* - [L]
+RewriteRule ^var/[^/]+/cache/(stylesheets|images|javascripts?)/.* - [L]
+Rewriterule ^design/[^/]+/(stylesheets|images|javascripts?|flash)/.* - [L]
+Rewriterule ^share/icons/.* - [L]
+RewriteRule ^([^/]+/)?content/treemenu.* index_treemenu.php [L]
+Rewriterule ^var/storage/packages/.* - [L]
+
+#Forbidden Locations
+RewriteRule ^var/([^/]+/)?storage/secure/.* - [F]
+
+RewriteRule !index_cluster.php - [C]
+RewriteRule !index.php - [C]
+RewriteRule .* index.php [L]
+</IfModule>

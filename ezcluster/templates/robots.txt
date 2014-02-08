@@ -1,0 +1,15 @@
+# Robots.txt file for a standard eZ Publish website
+# All robots will spider all the domain, except for search
+
+User-agent: *
+Disallow: /content/search/
+Disallow: /content/advancedsearch/
+Disallow: /content/pdf/
+Disallow: /content/tipafriend/
+Disallow: /design/
+Disallow: /extension/
+Disallow: /layout/set/
+
+# Example Agent Disallow
+#User-agent: infometrics
+#Disallow: / 
