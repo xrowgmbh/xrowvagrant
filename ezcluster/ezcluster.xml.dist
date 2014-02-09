@@ -97,8 +97,5 @@ source "/etc/ezcluster/scripts/master.sh"
 			<database dsn="mysql://xrow:openpass@localhost/master"/>
             <hostname>master.*</hostname>
         </environment>
-			<database dsn="mysql://revive:9LPSRrgcCPgTZmFE@localhost/revive"/>
-            <hostname>revive.*</hostname>
-        </environment>
     </cluster>
 </aws>
