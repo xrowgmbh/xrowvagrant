@@ -39,6 +39,36 @@ source "/etc/ezcluster/scripts/symfony.sh"
 			<database dsn="mysql://xrow:openpass@localhost/symfony"/>
             <hostname>symfony.*</hostname>
         </environment>
+		<environment name="5.2" docroot="web"> 
+		    <bootstrap>
+                <script><![CDATA[
+#!/bin/sh
+
+SOLR_URL="[SOLR_URL]"
+DATABASE_SERVER="[DATABASE_SERVER]"
+DATABASE_USER="[DATABASE_USER]"
+DATABASE_PASSWORD="[DATABASE_PASSWORD]"
+DATABASE_NAME="[DATABASE_NAME]"
+DFS_DATABASE_SERVER="[DFS_DATABASE_SERVER]"
+DFS_DATABASE_USER="[DFS_DATABASE_USER]"
+DFS_DATABASE_PASSWORD="[DFS_DATABASE_PASSWORD]"
+DFS_DATABASE_NAME="[DFS_DATABASE_NAME]"
+DFS_MOUNT="[DFS_MOUNT]"
+AWS_KEY="[AWS_KEY]"
+AWS_SECRETKEY="[AWS_SECRETKEY]"
+AWS_ACCOUNTID="[AWS_ACCOUNTID]"
+PACKAGES="http://packages.ez.no/ezpublish/4.7/4.7.0/"
+SCRIPT=`readlink -f $0`
+SCRIPTDIR=$(dirname ${SCRIPT})
+
+source "/etc/ezcluster/scripts/52.sh"
+]]></script>
+            </bootstrap>
+		    <database dsn="mysql://xrow:openpass@localhost/xrow52"/>
+			<storage dsn="mysql://xrow:openpass@localhost/xrow52" mount="/mnt/nas/live"/>
+            <hostname>stable.*</hostname>
+			<hostname>localhost</hostname>
+        </environment>
 		<environment name="ezpublish" docroot="web"> 
 		    <bootstrap>
                 <script><![CDATA[
