@@ -57,6 +57,14 @@ curl https://github.com/timkay/aws/raw/master/aws -o /bin/aws
 
 chmod +x /bin/aws
 
+mv /etc/security/limits.conf /etc/security/limits.conf.dist
+cat <<EOL > /etc/security/limits.conf
+*          soft     nproc          65535
+*          hard     nproc          65535
+*          soft     nofile         65535
+*          hard     nofile         65535
+EOL
+
 cat <<EOL > /etc/motd
 ##########################################################
 # eZ XROW Cluster for Amazon                             #
