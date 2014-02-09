@@ -24,6 +24,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #    config.ssh.username = "ec2-user"
 	config.ssh.forward_x11 = true
     config.vm.provider "virtualbox" do |v|
-        v.customize ["modifyvm", :id, "--memory", "2048"]
+        v.customize ["modifyvm", :id, "--memory", "4096"]
     end
 end

@@ -23,7 +23,7 @@ rm composer.json
 rm web/config.php
 mv web/app.php web/index.php
 mv web/app_dev.php web/index_dev.php
-cp /etc/ezcluster/templates/index_dev.php web/index_dev.php
+cp /etc/ezcluster/templates/symfony/index_dev.php web/index_dev.php
 cp /etc/ezcluster/templates/composer.symfony.json composer.json
 cp /etc/ezcluster/templates/AppKernel.php app/AppKernel.php
 cp /etc/ezcluster/templates/routing_dev.yml app/config/routing_dev.yml

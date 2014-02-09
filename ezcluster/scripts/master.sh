@@ -1,9 +1,9 @@
 #!/bin/sh
 
 rm -Rf *
-git clone https://github.com/ezsystems/ezpublish-community.git .
-git clone https://github.com/ezsystems/ezpublish-legacy.git ezpublish_legacy
-git clone https://github.com/ezsystems/ezfind ezpublish_legacy/extension/ezfind
+git clone --depth 1 https://github.com/ezsystems/ezpublish-community.git .
+git clone --depth 1 https://github.com/ezsystems/ezpublish-legacy.git ezpublish_legacy
+git clone --depth 1 https://github.com/ezsystems/ezfind ezpublish_legacy/extension/ezfind
 
 git clone https://github.com/xrowgmbh/xrowformgenerator ezpublish_legacy/extension/xrowformgenerator
 git clone https://github.com/xrowgmbh/xrowvideo ezpublish_legacy/extension/xrowvideo
@@ -24,7 +24,7 @@ sed -i '/<?php/ a\
 umask(0000);' web/index.php
 
 php -r "eval('?>'.file_get_contents('https://getcomposer.org/installer'));"
-php composer.phar install --profile
+php -d memory_limit=-1 composer.phar -vv install --profile
 
 wget https://raw.github.com/xrowgmbh/xrowvagrant/master/patches/201_install.diff
 patch -p0 < 201_install.diff
@@ -50,10 +50,6 @@ php vendor/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle/Resources
 php ezpublish/console assets:install --symlink --relative web
 php ezpublish/console ezpublish:legacy:assets_install --symlink web
 php ezpublish/console --env=prod assetic:dump web
-
-// FirePHP
-// RPM
-// 
 
 wget -O web/robots.txt http://s3-eu-west-1.amazonaws.com/xrow/downloads/ezcluster/robots.txt
 wget -O web/.htaccess http://s3-eu-west-1.amazonaws.com/xrow/downloads/ezcluster/.htaccess
