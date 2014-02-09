@@ -94,8 +94,8 @@ SCRIPTDIR=$(dirname ${SCRIPT})
 source "/etc/ezcluster/scripts/master.sh"
 ]]></script>
             </bootstrap>
-			<database dsn="mysql://xrow:openpass@localhost/master"/>
-            <hostname>master.*</hostname>
+			<database dsn="mysql://xrow:openpass@localhost/ezpublish"/>
+            <hostname>ezpublish.*</hostname>
         </environment>
     </cluster>
 </aws>
