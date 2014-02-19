@@ -32,6 +32,13 @@ DirectoryIndex index.php
   php_value magic_quotes_gpc                0
   php_value register_globals                0
   php_value session.auto_start              0
+  #Set the timezone
+  php_value date.timezone "Europe/Berlin"
+  #php_value date.timezone "Europe/London"
+  #php_value date.timezone "America/New_York"
+  #php_value date.timezone "America/Los_Angeles"
+  #php_value date.timezone "UTC"
+  #Other Locations see ref http://de2.php.net/manual/en/timezones.php
 </IfModule>
 
 <IfModule mod_php4.c>

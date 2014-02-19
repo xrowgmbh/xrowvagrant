@@ -30,8 +30,66 @@ yum -y install ezlupdate
 
 /etc/init.d/vboxadd setup
 
-yum -y install redis
+cat <<EOL > /etc/yum.repos.d/elasticsearch.repo
+[elasticsearch-1.0]
+name=Elasticsearch repository for 1.0.x packages
+baseurl=http://packages.elasticsearch.org/elasticsearch/1.0/centos
+gpgcheck=1
+gpgkey=http://packages.elasticsearch.org/GPG-KEY-elasticsearch
+enabled=1
+EOL
+cat <<EOL > /etc/yum.repos.d/logstash.repo
+[logstash-1.3]
+name=logstash repository for 1.3.x packages
+baseurl=http://packages.elasticsearch.org/logstash/1.3/centos
+gpgcheck=1
+gpgkey=http://packages.elasticsearch.org/GPG-KEY-elasticsearch
+enabled=1
+EOL
+yum -y clean all
+yum -y install elasticsearch logstash
+sed -i "s/START=false/START=true/g" /etc/sysconfig/logstash
 
+cat <<EOL > /etc/logstash/conf.d/ezcluster.conf
+input {
+  file {
+    type => "syslog"
+    path => [ "/var/log/*.log", "/var/log/messages", "/var/log/syslog" ]
+  }
+  file {
+    type => "ezpublish"
+    codec => "json"
+    path => [ "/var/www/sites/*/ezpublish/logs/logstash.log" ]
+  }
+  file {
+    type => "apache"
+    path => [ "/var/log/httpd/access_log" ]
+  }
+  file {
+    type => "php-error"
+    path => [ "/usr/local/zend/var/log/php.log" ]
+  }
+}
+output {
+  elasticsearch_http {
+     host => "localhost"
+  }
+}
+EOL
+
+wget http://download.elasticsearch.org/kibana/kibana/kibana-latest.zip
+unzip -d /var/www/ kibana-latest.zip
+mv /var/www/kibana-latest /var/www/kibana
+rm kibana-latest.zip
+openssl genrsa -out ca.key 1024 
+openssl req -batch -new -key ca.key -out ca.csr
+openssl x509 -req -days 365 -in ca.csr -signkey ca.key -out ca.crt
+mv ca.crt /etc/pki/tls/certs/ezcluster.crt
+mv ca.key /etc/pki/tls/private/ezcluster.key
+mv ca.csr /etc/pki/tls/private/ezcluster.csr
+
+yum -y install redis
+chkconfig redis on
 /usr/local/zend/bin/pecl install redis
 cat <<EOL > /usr/local/zend/etc/conf.d/redis.ini
 extension=redis.so
@@ -146,7 +204,6 @@ echo "Stoping services"
 ################################################
 
 sed -i "s/SELINUX=enforcing/SELINUX=permissive/g" /etc/selinux/config
-
 
 
 cat <<EOL > /etc/cloud/cloud.cfg.d/10_ezcluster.cfg
