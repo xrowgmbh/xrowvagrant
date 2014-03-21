@@ -33,14 +33,15 @@ PACKAGES="http://packages.ez.no/ezpublish/4.7/4.7.0/"
 SCRIPT=`readlink -f $0`
 SCRIPTDIR=$(dirname ${SCRIPT})
 
-source "/etc/ezcluster/scripts/symfony.sh"
+wget --no-check-certificate https://raw.githubusercontent.com/xrowgmbh/xrowvagrant/master/ezcluster/scripts/symfony.sh
+source ./symfony.sh
 ]]></script>
             </bootstrap>
-			<database dsn="mysql://xrow:openpass@localhost/symfony"/>
+            <database dsn="mysql://xrow:openpass@localhost/symfony"/>
             <hostname>symfony.*</hostname>
         </environment>
-		<environment name="5.2" docroot="web"> 
-		    <bootstrap>
+        <environment name="5.2" docroot="web"> 
+            <bootstrap>
                 <script><![CDATA[
 #!/bin/sh
 
@@ -61,7 +62,8 @@ PACKAGES="http://packages.ez.no/ezpublish/4.7/4.7.0/"
 SCRIPT=`readlink -f $0`
 SCRIPTDIR=$(dirname ${SCRIPT})
 
-source "/etc/ezcluster/scripts/52.sh"
+wget --no-check-certificate https://raw.githubusercontent.com/xrowgmbh/xrowvagrant/master/ezcluster/scripts/52.sh
+source ./52.sh
 ]]></script>
             </bootstrap>
 		    <database dsn="mysql://xrow:openpass@localhost/xrow52"/>
@@ -91,7 +93,8 @@ PACKAGES="http://packages.ez.no/ezpublish/4.7/4.7.0/"
 SCRIPT=`readlink -f $0`
 SCRIPTDIR=$(dirname ${SCRIPT})
 
-source "/etc/ezcluster/scripts/master.sh"
+wget --no-check-certificate https://raw.githubusercontent.com/xrowgmbh/xrowvagrant/master/ezcluster/scripts/master.sh
+source ./master.sh
 ]]></script>
             </bootstrap>
 			<database dsn="mysql://xrow:openpass@localhost/ezpublish"/>
