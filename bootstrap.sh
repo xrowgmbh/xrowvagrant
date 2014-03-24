@@ -19,7 +19,8 @@ yum -y install python-devel gcc libyaml libyaml-devel
 
 yum -y install redhat-lsb which
 
-yum -y install cloud-init
+#Just for AWS
+#yum -y install cloud-init
 
 # needed for ez cluster
 #yum -y install gfs2-utils nfs-utils rpcbind lvm2-cluster
@@ -107,7 +108,15 @@ extension=xhprof.so
 EOL
 mv /usr/local/zend/etc/conf.d/debugger.ini /usr/local/zend/etc/conf.d/debugger.ini.disabled
 
-yum install https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.0.0.RC1.noarch.rpm
+cat <<EOL > /etc/yum.repos.d/elasticsearch.repo
+[elasticsearch-1.0]
+name=Elasticsearch repository for 1.0.x packages
+baseurl=http://packages.elasticsearch.org/elasticsearch/1.0/centos
+gpgcheck=1
+gpgkey=http://packages.elasticsearch.org/GPG-KEY-elasticsearch
+enabled=1
+EOL
+yum install elasticsearch
 /sbin/chkconfig --add elasticsearch
 
 yum -y install ruby ec2-ami-tools ec2-api-tools
@@ -125,7 +134,7 @@ EOL
 
 cat <<EOL > /etc/motd
 ##########################################################
-# eZ XROW Cluster for Amazon                             #
+# eZ XROW Cluster                                        #
 ##########################################################
 EOL
 
