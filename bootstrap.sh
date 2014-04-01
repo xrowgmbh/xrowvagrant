@@ -181,7 +181,6 @@ chkconfig ip6tables off
 
 chkconfig --level 2345 rpcbind on
 chkconfig microcode_ctl off
-chkconfig iptables off
 chkconfig rpcgssd off
 chkconfig rpcidmapd off
 chkconfig haldaemon off
