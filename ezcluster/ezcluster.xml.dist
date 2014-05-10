@@ -9,7 +9,7 @@
 			<role>database</role>
 			<role>dev</role>
         </instance>
-		<rpm>ezfind-solr27</rpm>
+		<rpm>ezfind-solr</rpm>
 		<database-setting name="wait_timeout">50</database-setting>
 		<environment name="symfony" docroot="web"> 
 		    <bootstrap>
@@ -40,7 +40,7 @@ source ./symfony.sh
             <database dsn="mysql://xrow:openpass@localhost/symfony"/>
             <hostname>symfony.*</hostname>
         </environment>
-        <environment name="5.2" docroot="web"> 
+        <environment name="5.3" docroot="web"> 
             <bootstrap>
                 <script><![CDATA[
 #!/bin/sh
@@ -62,8 +62,8 @@ PACKAGES="http://packages.ez.no/ezpublish/4.7/4.7.0/"
 SCRIPT=`readlink -f $0`
 SCRIPTDIR=$(dirname ${SCRIPT})
 
-wget --no-check-certificate https://raw.githubusercontent.com/xrowgmbh/xrowvagrant/master/ezcluster/scripts/52.sh
-source ./52.sh
+wget --no-check-certificate https://raw.githubusercontent.com/xrowgmbh/xrowvagrant/master/ezcluster/scripts/53.sh
+source ./53.sh
 ]]></script>
             </bootstrap>
 		    <database dsn="mysql://xrow:openpass@localhost/xrow52"/>
