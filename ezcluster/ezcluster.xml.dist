@@ -100,5 +100,18 @@ source ./master.sh
 			<database dsn="mysql://xrow:openpass@localhost/ezpublish"/>
             <hostname>ezpublish.*</hostname>
         </environment>
+		    <environment name="plain"> 
+            <bootstrap>
+                <script><![CDATA[
+#!/bin/sh
+wget --no-check-certificate https://raw.githubusercontent.com/xrowgmbh/xrowvagrant/master/ezcluster/scripts/plain.sh
+source ./plain.sh
+]]></script>
+            </bootstrap>
+		    <database dsn="mysql://xrow:openpass@localhost/plain"/>
+			<storage dsn="mysql://xrow:openpass@localhost/plain" mount="/mnt/nas/live"/>
+            <hostname>plain.*</hostname>
+			<hostname>localhost</hostname>
+        </environment>
     </cluster>
 </aws>
