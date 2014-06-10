@@ -23,24 +23,18 @@ sed -i "s/\/\/umask(/umask(/g" web/index_dev.php
 sed -i '/<?php/ a\
 umask(0000);' web/index.php
 
-cd ezpublish_legacy
-php -r "eval('?>'.file_get_contents('https://getcomposer.org/installer'));"
-php -d memory_limit=-1 composer.phar install --profile
-cd ..
-
 wget --no-check-certificate https://raw.github.com/xrowgmbh/xrowvagrant/master/patches/201_install.diff
 patch -p0 < 201_install.diff
 
 find {ezpublish/{cache,logs,config},ezpublish_legacy/{design,extension,settings,var},web} -type d | xargs chmod -R 777
 find {ezpublish/{cache,logs,config},ezpublish_legacy/{design,extension,settings,var},web} -type f | xargs chmod -R 666
-php -r "eval('?>'.file_get_contents('https://getcomposer.org/installer'));"
-composer.phar require xrow/ezpublish-tools-bundle:@dev
+composer require xrow/ezpublish-tools-bundle:@dev
 
 php ezpublish/console assets:install --symlink web
 php ezpublish/console ezpublish:legacy:assets_install --symlink web
 php ezpublish/console assetic:dump web
 php ezpublish/console assetic:dump --env=prod web
-composer.phar dump-autoload --optimize
+composer dump-autoload --optimize
 
 wget --no-check-certificate -O web/robots.txt https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/robots.txt
 wget --no-check-certificate -O web/.htaccess https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/.htaccess

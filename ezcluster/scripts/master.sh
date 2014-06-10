@@ -23,9 +23,6 @@ sed -i "s/\/\/umask(/umask(/g" ezpublish/console
 sed -i '/<?php/ a\
 umask(0000);' web/index.php
 
-php -r "eval('?>'.file_get_contents('https://getcomposer.org/installer'));"
-php -d memory_limit=-1 composer.phar -vv install --profile
-
 wget https://raw.github.com/xrowgmbh/xrowvagrant/master/patches/201_install.diff
 patch -p0 < 201_install.diff
 

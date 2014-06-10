@@ -14,6 +14,7 @@ yum -y install dhclient
 yum -y install ${RPM_EPEL}
 yum -y install ${RPM_XROW}
 yum -y --disablerepo=* --enablerepo=xrow update xrow-repo
+yum -y install yum-cron
 
 yum -y install python-devel gcc libyaml libyaml-devel
 
@@ -31,6 +32,24 @@ yum -y install ezlupdate
 
 /etc/init.d/vboxadd setup
 
+#Git speed
+#http://interrobeng.com/2013/08/25/speed-up-git-5x-to-50x/
+cat <<EOL > /root/.ssh/config
+ControlMaster auto
+ControlPath /tmp/%r@%h:%p
+ControlPersist yes
+EOL
+cat <<EOL > /home/ec2-user/.ssh/config
+ControlMaster auto
+ControlPath /tmp/%r@%h:%p
+ControlPersist yes
+EOL
+chown ec2-user:ec2-user /home/ec2-user/.ssh/config
+
+cd /etc/yum.repos.d
+sudo wget http://www.hop5.in/yum/el6/hop5.repo
+yum -y install hhvm
+cd /
 cat <<EOL > /etc/yum.repos.d/elasticsearch.repo
 [elasticsearch-1.0]
 name=Elasticsearch repository for 1.0.x packages
@@ -48,6 +67,7 @@ gpgkey=http://packages.elasticsearch.org/GPG-KEY-elasticsearch
 enabled=1
 EOL
 yum -y clean all
+yum install https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.2_x86_64.rpm
 yum -y install elasticsearch logstash
 sed -i "s/START=false/START=true/g" /etc/sysconfig/logstash
 
@@ -267,7 +287,7 @@ PATH=\$PATH:\$HOME/bin
 
 export PATH
 
-SSH_ENV="$HOME/.ssh/environment"
+SSH_ENV="\$HOME/.ssh/environment"
 
 function start_agent {
     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "\${SSH_ENV}"

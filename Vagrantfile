@@ -7,7 +7,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.define :centos64
     config.vm.box = "centos64"
     config.vm.provision :shell, :path => "bootstrap.sh"
-
+    config.vm.boot_timeout = 1000
     config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-puppet.box"
 
     config.ssh.forward_agent = true
@@ -21,9 +21,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #   config.vm.network :forwarded_port, host: 20080, guest: 20080
 
     config.vm.synced_folder "ezcluster", "/etc/ezcluster"
-#   config.vm.synced_folder "sites", "/var/www/sites"
+#    config.vm.synced_folder "sites", "/var/www/sites"
 #    config.ssh.username = "ec2-user"
-	config.ssh.forward_x11 = true
+    config.ssh.forward_x11 = true
+    # Allow symlinks
+#    config.vm.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/cross-compiler", "1"]
+
     config.vm.provider "virtualbox" do |v|
         v.customize ["modifyvm", :id, "--memory", "4096"]
     end

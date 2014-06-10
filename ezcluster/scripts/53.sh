@@ -3,6 +3,8 @@
 wget -O ezpublish5.tar.gz --no-check-certificate "http://packages.xrow.com/software/5.3/ezpublish5-5.3.0-ee-ttl-full.tar.gz"
 tar --strip-components=1 -xzf ezpublish5.tar.gz
 rm -Rf ezpublish5.tar.gz
+
+# OLD
 mkdir -p ezpublish_legacy/extension/ezfind
 cd ezpublish_legacy/extension/ezfind
 wget -O ezfind.tar.gz "http://packages.xrow.com/software/5.3/ezfind-5.3.0.tar.gz"
@@ -11,6 +13,8 @@ rm -Rf ezfind.tar.gz
 cd ..
 cd ..
 cd ..
+#New but buggy https://project.issues.ez.no/IssueView.php?Id=12462
+#composer require --prefer-dist ezsystems/ezfind-ls:5.3.*
 
 sed -i "s/CURLOPT_CONNECTTIMEOUT, 3/CURLOPT_CONNECTTIMEOUT, 10/g" ezpublish_legacy/kernel/setup/steps/ezstep_site_types.php
 sed -i "s/\/\/umask(/umask(/g" ezpublish/console
@@ -18,21 +22,16 @@ sed -i "s/\/\/umask(/umask(/g" web/index_dev.php
 sed -i '/<?php/ a\
 umask(0000);' web/index.php
 
-cd ezpublish_legacy
-php -r "eval('?>'.file_get_contents('https://getcomposer.org/installer'));"
-php -d memory_limit=-1 composer.phar install --profile
-cd ..
-
 find {ezpublish/{cache,logs,config},ezpublish_legacy/{design,extension,settings,var},web} -type d | xargs chmod -R 777
 find {ezpublish/{cache,logs,config},ezpublish_legacy/{design,extension,settings,var},web} -type f | xargs chmod -R 666
 php -r "eval('?>'.file_get_contents('https://getcomposer.org/installer'));"
-composer.phar require xrow/ezpublish-tools-bundle:@dev
+composer require xrow/ezpublish-tools-bundle:@dev
 
 php ezpublish/console assets:install --symlink web
 php ezpublish/console ezpublish:legacy:assets_install --symlink web
 php ezpublish/console assetic:dump web
 php ezpublish/console assetic:dump --env=prod web
-composer.phar dump-autoload --optimize
+composer dump-autoload --optimize
 
 wget --no-check-certificate -O web/robots.txt https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/robots.txt
 wget --no-check-certificate -O web/.htaccess https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/.htaccess
