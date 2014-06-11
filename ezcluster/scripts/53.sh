@@ -4,18 +4,6 @@ wget -O ezpublish5.tar.gz --no-check-certificate "http://packages.xrow.com/softw
 tar --strip-components=1 -xzf ezpublish5.tar.gz
 rm -Rf ezpublish5.tar.gz
 
-# OLD
-mkdir -p ezpublish_legacy/extension/ezfind
-cd ezpublish_legacy/extension/ezfind
-wget -O ezfind.tar.gz "http://packages.xrow.com/software/5.3/ezfind-5.3.0.tar.gz"
-tar --strip-components=1 -xzf ezfind.tar.gz
-rm -Rf ezfind.tar.gz
-cd ..
-cd ..
-cd ..
-#New but buggy https://project.issues.ez.no/IssueView.php?Id=12462
-#composer require --prefer-dist ezsystems/ezfind-ls:5.3.*
-
 sed -i "s/CURLOPT_CONNECTTIMEOUT, 3/CURLOPT_CONNECTTIMEOUT, 10/g" ezpublish_legacy/kernel/setup/steps/ezstep_site_types.php
 sed -i "s/\/\/umask(/umask(/g" ezpublish/console
 sed -i "s/\/\/umask(/umask(/g" web/index_dev.php
@@ -24,7 +12,21 @@ umask(0000);' web/index.php
 
 find {ezpublish/{cache,logs,config},ezpublish_legacy/{design,extension,settings,var},web} -type d | xargs chmod -R 777
 find {ezpublish/{cache,logs,config},ezpublish_legacy/{design,extension,settings,var},web} -type f | xargs chmod -R 666
-php -r "eval('?>'.file_get_contents('https://getcomposer.org/installer'));"
+cat <<EOL > ./auth.json
+{
+    "config": {
+        "basic-auth": {
+            "updates.ez.no": {
+                "username": "$LICENCE_USERNAME",
+                "password": "$LICENCE_PASSWORD"
+            }
+        }
+    }
+}
+EOL
+
+#New but buggy https://project.issues.ez.no/IssueView.php?Id=12462
+composer require --prefer-dist ezsystems/ezfind-ls:5.3.*
 composer require xrow/ezpublish-tools-bundle:@dev
 
 php ezpublish/console assets:install --symlink web

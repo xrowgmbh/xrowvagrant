@@ -61,7 +61,8 @@ AWS_ACCOUNTID="[AWS_ACCOUNTID]"
 PACKAGES="http://packages.ez.no/ezpublish/4.7/4.7.0/"
 SCRIPT=`readlink -f $0`
 SCRIPTDIR=$(dirname ${SCRIPT})
-
+LICENCE_USERNAME=""
+LICENCE_PASSWORD=""
 wget --no-check-certificate https://raw.githubusercontent.com/xrowgmbh/xrowvagrant/master/ezcluster/scripts/53.sh
 source ./53.sh
 ]]></script>
