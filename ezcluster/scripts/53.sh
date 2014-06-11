@@ -17,8 +17,8 @@ cat <<EOL > ./auth.json
     "config": {
         "basic-auth": {
             "updates.ez.no": {
-                "username": "$LICENCE_USERNAME",
-                "password": "$LICENCE_PASSWORD"
+                "username": "${LICENCE_USERNAME}",
+                "password": "${LICENCE_PASSWORD}"
             }
         }
     }
