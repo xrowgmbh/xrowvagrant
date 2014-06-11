@@ -1,6 +1,6 @@
 #!/bin/sh
 
-wget -O ezpublish5.tar.gz --no-check-certificate "http://packages.xrow.com/software/5.3/ezpublish5-5.3.0-ee-ttl-full.tar.gz"
+wget -O ezpublish5.tar.gz --no-check-certificate "http://packages.xrow.com/software/5.3/ezpublish5-5.3.0-ee-bul-full.tar.gz"
 tar --strip-components=1 -xzf ezpublish5.tar.gz
 rm -Rf ezpublish5.tar.gz
 
