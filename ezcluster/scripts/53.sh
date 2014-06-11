@@ -17,8 +17,8 @@ cat <<EOL > ./auth.json
     "config": {
         "basic-auth": {
             "updates.ez.no": {
-                "username": "${LICENCE_USERNAME}",
-                "password": "${LICENCE_PASSWORD}"
+                "username": "${INSTALLATION_ID}",
+                "password": "${LICENCE_KEY}"
             }
         }
     }
@@ -26,8 +26,8 @@ cat <<EOL > ./auth.json
 EOL
 
 #New but buggy https://project.issues.ez.no/IssueView.php?Id=12462
-composer require --prefer-dist ezsystems/ezfind-ls:5.3.*
-composer require xrow/ezpublish-tools-bundle:@dev
+#composer -vvv require --prefer-dist ezsystems/ezfind-ls:5.3.*
+#composer -vvv require xrow/ezpublish-tools-bundle:@dev
 
 php ezpublish/console assets:install --symlink web
 php ezpublish/console ezpublish:legacy:assets_install --symlink web
