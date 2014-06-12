@@ -28,6 +28,7 @@ yum -y install redhat-lsb which
 yum -y install xrow-zend xrow-zend-packages
 yum -y --enablerepo=xrow-opt install ezcluster
 yum -y install ezpublish
+yum -y remove mlocate
 yum -y install ezlupdate
 
 /etc/init.d/vboxadd setup
