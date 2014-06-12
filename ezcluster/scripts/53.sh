@@ -9,6 +9,14 @@ sed -i "s/\/\/umask(/umask(/g" ezpublish/console
 sed -i "s/\/\/umask(/umask(/g" web/index_dev.php
 sed -i '/<?php/ a\
 umask(0000);' web/index.php
+# no clue!
+#sed -i "/^\[RepositorySettings\]/,/^\[/ {
+#        s|^#\?RemotePackagesIndexURL[[:blank:]]*=.*$|RemotePackagesIndexURL="${PACKAGES}"|
+#}" ezpublish_legacy/settings/package.ini
+
+sed -i "/^\[RepositorySettings\]/,/^\[/ {
+        s|^#\?RemotePackagesIndexURL[[:blank:]]*=.*$|RemotePackagesIndexURL=http://packages.ez.no/ezpublish/5.3/5.3.0/|
+}" ezpublish_legacy/settings/package.ini
 
 find {ezpublish/{cache,logs,config,sessions},ezpublish_legacy/{design,extension,settings,var},web} -type d | xargs chmod -R 777
 find {ezpublish/{cache,logs,config,sessions},ezpublish_legacy/{design,extension,settings,var},web} -type f | xargs chmod -R 666
@@ -24,9 +32,10 @@ cat <<EOL > ./auth.json
     }
 }
 EOL
+composer update
 composer require --prefer-dist ezsystems/ezfind-ls:5.3.*
 #composer require xrow/ezpublish-tools-bundle:@dev
-composer update
+
 
 
 php ezpublish/console assets:install --symlink web

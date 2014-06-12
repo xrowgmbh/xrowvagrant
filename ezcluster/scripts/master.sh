@@ -14,8 +14,9 @@ git clone https://github.com/xrowgmbh/xrowsearch ezpublish_legacy/extension/xrow
 git clone https://github.com/xrowgmbh/xrowmetadata ezpublish_legacy/extension/xrowmetadata
 
 sed -i "/^\[RepositorySettings\]/,/^\[/ {
-	    s|^#\?RemotePackagesIndexURL[[:blank:]]*=.*$|RemotePackagesIndexURL=http://packages.ez.no/ezpublish/5.0/5.0.0|
-	}" ezpublish_legacy/settings/package.ini
+        s|^#\?RemotePackagesIndexURL[[:blank:]]*=.*$|RemotePackagesIndexURL="${PACKAGES}"|
+}" ezpublish_legacy/settings/package.ini
+
 
 sed -i "s/CURLOPT_CONNECTTIMEOUT, 3/CURLOPT_CONNECTTIMEOUT, 10/g" ezpublish_legacy/kernel/setup/steps/ezstep_site_types.php
 

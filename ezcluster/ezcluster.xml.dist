@@ -44,7 +44,7 @@ source ./symfony.sh
             <bootstrap>
                 <script><![CDATA[
 #!/bin/sh
-
+VERSION="5.3"
 SOLR_URL="[SOLR_URL]"
 DATABASE_SERVER="[DATABASE_SERVER]"
 DATABASE_USER="[DATABASE_USER]"
@@ -58,17 +58,17 @@ DFS_MOUNT="[DFS_MOUNT]"
 AWS_KEY="[AWS_KEY]"
 AWS_SECRETKEY="[AWS_SECRETKEY]"
 AWS_ACCOUNTID="[AWS_ACCOUNTID]"
-PACKAGES="http://packages.ez.no/ezpublish/4.7/4.7.0/"
+PACKAGES="http://packages.ez.no/ezpublish/${VERSION}/${VERSION}.0/"
 SCRIPT=`readlink -f $0`
 SCRIPTDIR=$(dirname ${SCRIPT})
-LICENCE_USERNAME=""
-LICENCE_PASSWORD=""
+INSTALLATION_ID=""
+LICENCE_KEY=""
 wget --no-check-certificate https://raw.githubusercontent.com/xrowgmbh/xrowvagrant/master/ezcluster/scripts/53.sh
 source ./53.sh
 ]]></script>
             </bootstrap>
-		    <database dsn="mysql://xrow:openpass@localhost/xrow52"/>
-			<storage dsn="mysql://xrow:openpass@localhost/xrow52" mount="/mnt/nas/live"/>
+		    <database dsn="mysql://xrow:openpass@localhost/ezpublish"/>
+			<storage dsn="mysql://xrow:openpass@localhost/ezpublish" mount="/mnt/nas/live"/>
             <hostname>stable.*</hostname>
 			<hostname>localhost</hostname>
         </environment>
@@ -76,7 +76,7 @@ source ./53.sh
 		    <bootstrap>
                 <script><![CDATA[
 #!/bin/sh
-
+VERSION="5.3"
 SOLR_URL="[SOLR_URL]"
 DATABASE_SERVER="[DATABASE_SERVER]"
 DATABASE_USER="[DATABASE_USER]"
@@ -90,10 +90,11 @@ DFS_MOUNT="[DFS_MOUNT]"
 AWS_KEY="[AWS_KEY]"
 AWS_SECRETKEY="[AWS_SECRETKEY]"
 AWS_ACCOUNTID="[AWS_ACCOUNTID]"
-PACKAGES="http://packages.ez.no/ezpublish/4.7/4.7.0/"
+PACKAGES="http://packages.ez.no/ezpublish/${VERSION}/${VERSION}.0/"
 SCRIPT=`readlink -f $0`
 SCRIPTDIR=$(dirname ${SCRIPT})
-
+INSTALLATION_ID=""
+LICENCE_KEY=""
 wget --no-check-certificate https://raw.githubusercontent.com/xrowgmbh/xrowvagrant/master/ezcluster/scripts/master.sh
 source ./master.sh
 ]]></script>
