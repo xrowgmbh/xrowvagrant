@@ -1,6 +1,7 @@
 #!/bin/sh
 PWD=$(pwd)
 
+#kickstart bug https://project.issues.ez.no/IssueView.php?Id=12475
 cat <<EOL > ./ezpublish_legacy/kickstart.ini
 [email_settings]
 Continue=true

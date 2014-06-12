@@ -47,7 +47,6 @@ composer dump-autoload --optimize
 wget --no-check-certificate -O web/robots.txt https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/robots.txt
 wget --no-check-certificate -O web/.htaccess https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/.htaccess
 
-#kickstart bug https://project.issues.ez.no/IssueView.php?Id=12475
 cp -a /etc/ezcluster/tools/* .
-
+source ./insertdemo.sh
 source ./cache.sh
