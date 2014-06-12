@@ -10,8 +10,8 @@ sed -i "s/\/\/umask(/umask(/g" web/index_dev.php
 sed -i '/<?php/ a\
 umask(0000);' web/index.php
 
-find {ezpublish/{cache,logs,sessions,config},ezpublish_legacy/{design,extension,settings,var},web} -type d | xargs chmod -R 777
-find {ezpublish/{cache,logs,config},ezpublish_legacy/{design,extension,settings,var},web} -type f | xargs chmod -R 666
+find {ezpublish/{cache,logs,config,sessions},ezpublish_legacy/{design,extension,settings,var},web} -type d | xargs chmod -R 777
+find {ezpublish/{cache,logs,config,sessions},ezpublish_legacy/{design,extension,settings,var},web} -type f | xargs chmod -R 666
 cat <<EOL > ./auth.json
 {
     "config": {
@@ -24,20 +24,17 @@ cat <<EOL > ./auth.json
     }
 }
 EOL
-
-#New but buggy https://project.issues.ez.no/IssueView.php?Id=12462
-#composer -vvv require --prefer-dist ezsystems/ezfind-ls:5.3.*
-#composer -vvv require xrow/ezpublish-tools-bundle:@dev
-
+composer require --prefer-dist ezsystems/ezfind-ls:5.3.*
+#composer require xrow/ezpublish-tools-bundle:@dev
 composer update
+
+
 php ezpublish/console assets:install --symlink web
 php ezpublish/console ezpublish:legacy:assets_install --symlink web
 php ezpublish/console assetic:dump web
 php ezpublish/console assetic:dump --env=prod web
 composer dump-autoload --optimize
 
-wget --no-check-certificate https://raw.github.com/xrowgmbh/xrowvagrant/master/patches/201_install.diff
-patch -p0 < 201_install.diff
 wget --no-check-certificate -O web/robots.txt https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/robots.txt
 wget --no-check-certificate -O web/.htaccess https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/.htaccess
 
@@ -82,8 +79,8 @@ rm -Rf web/var/log/*
 sudo /etc/init.d/httpd restart
 sudo /etc/init.d/varnish restart
 EOL
-
-cat <<EOL > ./ezpublish_legacy/kickstart.ini 
+#kickstart bug https://project.issues.ez.no/IssueView.php?Id=12475
+cat <<EOL > ./ezpublish_legacy/kickstart.ini.test
 [email_settings]
 Continue=true
 Type=mta
@@ -124,9 +121,9 @@ DatabaseAction=remove
 [site_details]
 Continue=true
 Title=New site
-Access=site
-AdminAccess=site_admin
-AccessPort=8080
+Access=ezdemo_site
+AdminAccess=ezdemo_site_admin
+AccessPort=80
 AccessHostname=localhost
 AdminAccessHostname=localhost
 Database=xrow52
