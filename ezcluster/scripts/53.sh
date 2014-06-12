@@ -10,7 +10,7 @@ sed -i "s/\/\/umask(/umask(/g" web/index_dev.php
 sed -i '/<?php/ a\
 umask(0000);' web/index.php
 
-find {ezpublish/{cache,logs,config},ezpublish_legacy/{design,extension,settings,var},web} -type d | xargs chmod -R 777
+find {ezpublish/{cache,logs,sessions,config},ezpublish_legacy/{design,extension,settings,var},web} -type d | xargs chmod -R 777
 find {ezpublish/{cache,logs,config},ezpublish_legacy/{design,extension,settings,var},web} -type f | xargs chmod -R 666
 cat <<EOL > ./auth.json
 {
@@ -29,12 +29,15 @@ EOL
 #composer -vvv require --prefer-dist ezsystems/ezfind-ls:5.3.*
 #composer -vvv require xrow/ezpublish-tools-bundle:@dev
 
+composer update
 php ezpublish/console assets:install --symlink web
 php ezpublish/console ezpublish:legacy:assets_install --symlink web
 php ezpublish/console assetic:dump web
 php ezpublish/console assetic:dump --env=prod web
 composer dump-autoload --optimize
 
+wget --no-check-certificate https://raw.github.com/xrowgmbh/xrowvagrant/master/patches/201_install.diff
+patch -p0 < 201_install.diff
 wget --no-check-certificate -O web/robots.txt https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/robots.txt
 wget --no-check-certificate -O web/.htaccess https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/.htaccess
 
@@ -60,8 +63,8 @@ rm -Rf ezpublish/config/ezpublish_prod.yml
 mysql -e'drop database xrow52'
 mysql -e'create database xrow52'
 
-find {ezpublish/{cache,logs,config},ezpublish_legacy/{design,extension,settings,var},web} -type d | sudo xargs chmod -R 777
-find {ezpublish/{cache,logs,config},ezpublish_legacy/{design,extension,settings,var},web} -type f | sudo xargs chmod -R 666
+find {ezpublish/{cache,logs,config,session},ezpublish_legacy/{design,extension,settings,var},web} -type d | sudo xargs chmod -R 777
+find {ezpublish/{cache,logs,config,session},ezpublish_legacy/{design,extension,settings,var},web} -type f | sudo xargs chmod -R 666
 
 sudo /etc/init.d/httpd restart
 sudo /etc/init.d/varnish restart
