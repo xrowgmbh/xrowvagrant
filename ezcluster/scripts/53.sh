@@ -15,7 +15,7 @@ umask(0000);' web/index.php
 #}" ezpublish_legacy/settings/package.ini
 
 sed -i "/^\[RepositorySettings\]/,/^\[/ {
-        s|^#\?RemotePackagesIndexURL[[:blank:]]*=.*$|RemotePackagesIndexURL=http://packages.ez.no/ezpublish/5.3/5.3.0/|
+        s|^#\?RemotePackagesIndexURL[[:blank:]]*=.*$|RemotePackagesIndexURL=http://packages.ez.no/ezpublish\/5.3\/5.3.0\/|
 }" ezpublish_legacy/settings/package.ini
 
 find {ezpublish/{cache,logs,config,sessions},ezpublish_legacy/{design,extension,settings,var},web} -type d | xargs chmod -R 777
@@ -47,110 +47,7 @@ composer dump-autoload --optimize
 wget --no-check-certificate -O web/robots.txt https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/robots.txt
 wget --no-check-certificate -O web/.htaccess https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/.htaccess
 
-rm -Rf ezpublish_legacy/var/cache/*
-rm -Rf ezpublish_legacy/var/log/*
-rm -Rf ezpublish/cache/*
-rm -Rf ezpublish/log/*
-cat <<EOL > ./reset.sh
-
-rm -Rf ezpublish_legacy/var/cache/*
-rm -Rf ezpublish_legacy/var/log/*
-rm -Rf ezpublish_legacy/settings/override/*
-rm -Rf ezpublish_legacy/settings/siteaccess/*
-rm -Rf ezpublish/cache/*
-rm -Rf ezpublish/logs/*
-rm -Rf ezpublish_legacy/var/ezdemo_site/cache/*
-rm -Rf ezpublish_legacy/var/ezdemo_site/log/*
-rm -Rf web/var/cache/*
-rm -Rf web/var/log/*
-rm -Rf ezpublish/config/ezpublish.yml
-rm -Rf ezpublish/config/ezpublish_dev.yml
-rm -Rf ezpublish/config/ezpublish_prod.yml
-mysql -e'drop database xrow52'
-mysql -e'create database xrow52'
-
-find {ezpublish/{cache,logs,config,session},ezpublish_legacy/{design,extension,settings,var},web} -type d | sudo xargs chmod -R 777
-find {ezpublish/{cache,logs,config,session},ezpublish_legacy/{design,extension,settings,var},web} -type f | sudo xargs chmod -R 666
-
-sudo /etc/init.d/httpd restart
-sudo /etc/init.d/varnish restart
-EOL
-
-cat <<EOL > ./cache.sh
-rm -Rf ezpublish_legacy/var/cache/*
-rm -Rf ezpublish_legacy/var/log/*
-rm -Rf ezpublish/cache/*
-rm -Rf ezpublish/logs/*
-rm -Rf ezpublish_legacy/var/ezdemo_site/cache/*
-rm -Rf ezpublish_legacy/var/ezdemo_site/log/*
-rm -Rf web/var/cache/*
-rm -Rf web/var/log/*
-sudo /etc/init.d/httpd restart
-sudo /etc/init.d/varnish restart
-EOL
 #kickstart bug https://project.issues.ez.no/IssueView.php?Id=12475
-cat <<EOL > ./ezpublish_legacy/kickstart.ini.test
-[email_settings]
-Continue=true
-Type=mta
+cp -a /etc/ezcluster/tools/* .
 
-[database_choice]
-Continue=true
-Type=mysqli
-
-[database_init]
-Continue=true
-Server=localhost
-Port=3306
-Database=xrow52
-User=root
-
-Password=
-Socket=
-
-[language_options]
-Continue=true
-Primary=eng-GB
-#Languages[]=ger-DE
-#Languages[]=fre-FR
-
-[site_types]
-Continue=true
-Site_package=demo_site
-
-[site_access]
-Continue=true
-Access=url
-
-[site_details]
-Continue=false
-Database=xrow52
-DatabaseAction=remove
-
-[site_details]
-Continue=true
-Title=New site
-Access=ezdemo_site
-AdminAccess=ezdemo_site_admin
-AccessPort=80
-AccessHostname=localhost
-AdminAccessHostname=localhost
-Database=xrow52
-DatabaseAction=remove
-
-[site_admin]
-Continue=true
-FirstName=God
-LastName=Like
-Email=nospam@ez.no
-Password=publish
-
-[security]
-Continue=true
-
-[registration]
-Continue=true
-Comments=
-Send=false
-
-EOL
+source ./cache.sh

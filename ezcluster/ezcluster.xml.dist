@@ -29,7 +29,6 @@ DFS_MOUNT="[DFS_MOUNT]"
 AWS_KEY="[AWS_KEY]"
 AWS_SECRETKEY="[AWS_SECRETKEY]"
 AWS_ACCOUNTID="[AWS_ACCOUNTID]"
-PACKAGES="http://packages.ez.no/ezpublish/4.7/4.7.0/"
 SCRIPT=`readlink -f $0`
 SCRIPTDIR=$(dirname ${SCRIPT})
 
@@ -58,7 +57,7 @@ DFS_MOUNT="[DFS_MOUNT]"
 AWS_KEY="[AWS_KEY]"
 AWS_SECRETKEY="[AWS_SECRETKEY]"
 AWS_ACCOUNTID="[AWS_ACCOUNTID]"
-PACKAGES="http://packages.ez.no/ezpublish/${VERSION}/${VERSION}.0/"
+PACKAGES="http:\/\/packages.ez.no\/ezpublish\/${VERSION}\/${VERSION}.0\/"
 SCRIPT=`readlink -f $0`
 SCRIPTDIR=$(dirname ${SCRIPT})
 INSTALLATION_ID=""
