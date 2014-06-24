@@ -15,7 +15,7 @@ umask(0000);' web/index.php
 #}" ezpublish_legacy/settings/package.ini
 
 sed -i "/^\[RepositorySettings\]/,/^\[/ {
-        s|^#\?RemotePackagesIndexURL[[:blank:]]*=.*$|RemotePackagesIndexURL=http://packages.ez.no/ezpublish\/5.3\/5.3.0\/|
+        s|^RemotePackagesIndexURL[[:blank:]]*=.*$|RemotePackagesIndexURL=http://packages.ez.no/ezpublish\/5.3\/5.3.0\/|
 }" ezpublish_legacy/settings/package.ini
 
 find {ezpublish/{cache,logs,config,sessions},ezpublish_legacy/{design,extension,settings,var},web} -type d | xargs chmod -R 777
@@ -48,5 +48,5 @@ wget --no-check-certificate -O web/robots.txt https://raw.github.com/xrowgmbh/xr
 wget --no-check-certificate -O web/.htaccess https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/.htaccess
 
 cp -a /etc/ezcluster/tools/* .
-source ./insertdemo.sh
+#source ./insertdemo.sh
 source ./cache.sh
