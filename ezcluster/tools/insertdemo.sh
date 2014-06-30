@@ -9,3 +9,6 @@ mysql -uroot ezpublish < ezpublish_legacy/var/ezdemo_site/dump.sql
 rm -Rf dump.tgz
 php ezpublish/console ezpublish:legacy:script bin/php/ezpgenerateautoloads.php
 source ./fixpermissions.sh
+# Bug https://project.issues.ez.no/IssueView.php?Id=12514&activeItem=1
+echo "For solr indexing run:"
+echo "php ezpublish/console ezpublish:legacy:script --env=dev -n extension/ezfind/bin/php/updatesearchindexsolr.php"

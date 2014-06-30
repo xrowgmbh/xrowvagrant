@@ -23,8 +23,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     config.vm.synced_folder "ezcluster", "/etc/ezcluster"
 #    config.vm.synced_folder "sites", "/var/www/sites"
-#    config.ssh.username = "ec2-user"
-    config.ssh.forward_x11 = true
+#    config.ssh.username = "root"
+
     # Allow symlinks
 #    config.vm.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/cross-compiler", "1"]
 
