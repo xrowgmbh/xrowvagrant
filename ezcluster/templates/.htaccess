@@ -153,6 +153,13 @@ RewriteRule ^(.*) soap.php [L]
 #RewriteCond %{HTTP_HOST} !^$ [NC]
 #RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [L,R=301]
 
+#Enable https for the backend domain
+#RewriteCond %{REQUEST_URI} !ezinfo/is_alive
+#RewriteCond %{REQUEST_URI} !index.php
+#RewriteCond %{HTTP_HOST} ^admin\..*$
+#RewriteCond %{HTTP:X-FORWARDED-PROTO} ^$           
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
 
 # Rewrite URLs with index.php/*
 #RewriteRule ^index.php/(.*)$ http://%{HTTP_HOST}/$1 [L,R=302]
