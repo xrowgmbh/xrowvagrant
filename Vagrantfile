@@ -20,6 +20,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.network :forwarded_port, host: 9292, guest: 9292
 #   config.vm.network :forwarded_port, host: 10137, guest: 10137
 #   config.vm.network :forwarded_port, host: 20080, guest: 20080
+    private_key_path = "insecure_private_key"
 
     config.vm.synced_folder "ezcluster", "/etc/ezcluster"
 #    config.vm.synced_folder "sites", "/var/www/sites"

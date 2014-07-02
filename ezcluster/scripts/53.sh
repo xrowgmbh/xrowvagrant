@@ -6,7 +6,6 @@ rm -Rf ezpublish5.tar.gz
 
 sed -i "s/CURLOPT_CONNECTTIMEOUT, 3/CURLOPT_CONNECTTIMEOUT, 10/g" ezpublish_legacy/kernel/setup/steps/ezstep_site_types.php
 sed -i "s/\/\/umask(/umask(/g" ezpublish/console
-sed -i "s/\/\/umask(/umask(/g" web/index_dev.php
 sed -i '/<?php/ a\
 umask(0000);' web/index.php
 # no clue!
