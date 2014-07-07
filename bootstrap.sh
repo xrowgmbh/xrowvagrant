@@ -192,7 +192,9 @@ pwconv
 #### turn on/off some required services     ####
 ################################################
 
-chkconfig --level 2345 network on
+chkconfig network on
+chkconfig rpcbind on
+chkconfig ntpd on
 chkconfig iptables off
 chkconfig ip6tables off
 
@@ -200,7 +202,7 @@ chkconfig ip6tables off
 #### turn off some other services if needed ####
 ################################################
 
-chkconfig --level 2345 rpcbind on
+
 chkconfig microcode_ctl off
 chkconfig rpcgssd off
 chkconfig rpcidmapd off
