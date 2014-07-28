@@ -31,6 +31,10 @@ yum -y --enablerepo=xrow-opt install ezcluster
 yum -y install ezpublish
 yum -y install ezlupdate
 
+# Plattform UI requirements
+yum -y install nodejs npm nodejs-grunt freetype fontconfig
+npm install -g bower
+
 /etc/init.d/vboxadd setup
 
 #Git speed
