@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# broken since php 5.4 requirement
 rm -Rf * .git .gitignore .travis.yml
 git clone --depth 1 https://github.com/ezsystems/ezpublish-community.git .
 git clone --depth 1 https://github.com/ezsystems/ezpublish-legacy.git ezpublish_legacy
