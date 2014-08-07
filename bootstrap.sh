@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 RPM_EPEL=http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-RPM_XROW=http://packages.xrow.com/redhat/6/xrow-repo-2.2-44.noarch.rpm
+RPM_XROW=http://packages.xrow.com/redhat/6/xrow-repo-2.2-45.noarch.rpm
 
 yum -y update
 yum -y groupinstall Base
