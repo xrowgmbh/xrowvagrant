@@ -2,7 +2,7 @@
 PWD=$(pwd)
 rm -Rf ezpublish_legacy/settings/override ezpublish_legacy/settings/siteaccess ezpublish_legacy/var/ezdemo_site/log ezpublish_legacy/var/ezdemo_site/cache
 wget --no-check-certificate -O dump.zip https://github.com/xrowgmbh/xrowvagrant-demodata/archive/master.zip
-unzip -o -d ./ dump.zip
+unzip -o -d $PWD dump.zip
 rm -Rf ezpublish_legacy/var/ezdemo_site/log/ ezpublish_legacy/var/ezdemo_site/cache/
 mysql -uroot -e'create database ezpublish'
 mysql -uroot ezpublish < ezpublish_legacy/var/ezdemo_site/dump.sql
