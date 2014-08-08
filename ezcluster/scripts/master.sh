@@ -37,6 +37,8 @@ parameters:
 EOL
 
 composer require ezsystems/platform-ui-bundle:dev-master
+#todo
+#cd vendor/ezsystems/platform-ui-bundle && bower -s install && cd -
 
 #composer update
 #php vendor/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php ezpublish
