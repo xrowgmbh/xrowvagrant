@@ -1,5 +1,7 @@
 #!/bin/sh
 
+VERSION=5.3
+
 rm -Rf * .git .gitignore .travis.yml
 git clone --depth 1 https://github.com/ezsystems/ezpublish-community.git .
 git clone --depth 1 https://github.com/ezsystems/ezpublish-legacy.git ezpublish_legacy
@@ -15,9 +17,8 @@ git clone --depth 1 https://github.com/ezsystems/ezfind ezpublish_legacy/extensi
 #git clone https://github.com/xrowgmbh/xrowmetadata ezpublish_legacy/extension/xrowmetadata
 
 sed -i "/^\[RepositorySettings\]/,/^\[/ {
-        s|^RemotePackagesIndexURL[[:blank:]]*=.*|RemotePackagesIndexURL=http:\/\/packages.ez.no\/ezpublish\/5.3\/5.3.0\/|
+        s|^RemotePackagesIndexURL[[:blank:]]*=.*|RemotePackagesIndexURL=http:\/\/packages.ez.no\/ezpublish\/$VERSION/$VERSION\.0\/|
 }" ezpublish_legacy/settings/package.ini
-
 
 sed -i "s/CURLOPT_CONNECTTIMEOUT, 3/CURLOPT_CONNECTTIMEOUT, 10/g" ezpublish_legacy/kernel/setup/steps/ezstep_site_types.php
 sed -i "s/\/\/umask(/umask(/g" ezpublish/console
@@ -37,19 +38,26 @@ parameters:
 EOL
 
 composer require ezsystems/platform-ui-bundle:dev-master
-#todo
-#cd vendor/ezsystems/platform-ui-bundle && bower -s install && cd -
+cd vendor/ezsystems/platform-ui-bundle && bower -s install && cd -
+#composer require xrow/ezpublish-tools-bundle:@dev
+#composer require xrowgmbh/ezpublish-event-ls:dev-master
+#composer require xrowgmbh/ezpublish-formgenerator-ls:dev-master
+#composer require xrowgmbh/ezpublish-metadata-ls:dev-master
+#composer require xrowgmbh/ezpublish-video-ls:dev-master
+#composer require xrowgmbh/ezpublish-bigdata-bundle:dev-master
 
 #composer update
 #php vendor/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php ezpublish
 
-php ezpublish/console assets:install --symlink --relative web
+php ezpublish/console assets:install --symlink web
 php ezpublish/console ezpublish:legacy:assets_install --symlink web
-php ezpublish/console --env=prod assetic:dump web
+php ezpublish/console assetic:dump web
+php ezpublish/console assetic:dump --env=prod web
+composer dump-autoload --optimize
 
-wget -O web/robots.txt http://s3-eu-west-1.amazonaws.com/xrow/downloads/ezcluster/robots.txt
-wget -O web/.htaccess http://s3-eu-west-1.amazonaws.com/xrow/downloads/ezcluster/.htaccess
+wget --no-check-certificate -O web/robots.txt https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/robots.txt
+wget --no-check-certificate -O web/.htaccess https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/.htaccess
 
 cp -a /etc/ezcluster/tools/* .
-#source ./insertdemo.sh
+source ./insertdemo.sh
 source ./cache.sh
