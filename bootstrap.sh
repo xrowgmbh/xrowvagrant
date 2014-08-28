@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 RPM_EPEL=http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-RPM_XROW=http://packages.xrow.com/redhat/6/xrow-repo-2.2-43.noarch.rpm
+RPM_XROW=http://packages.xrow.com/redhat/6/xrow-repo-2.2-47.noarch.rpm
 
 yum -y update
 yum -y groupinstall Base
@@ -13,7 +13,7 @@ yum -y install dhclient
 
 yum -y install ${RPM_EPEL}
 yum -y install ${RPM_XROW}
-yum -y --disablerepo=* --enablerepo=xrow update xrow-repo
+yum -y --disablerepo=* --enablerepo=xrow --enablerepo=extras  update xrow-repo
 yum -y install yum-cron
 
 yum -y install python-devel gcc libyaml libyaml-devel
