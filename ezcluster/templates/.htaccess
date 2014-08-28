@@ -183,8 +183,6 @@ RewriteRule ^js/.*\.js - [L]
  
 
 # eZ Publish
-RewriteRule ^api/ index_rest.php [L]
-RewriteRule ^index_rest\.php - [L]
 Rewriterule ^extension/[^/]+/design/[^/]+/(stylesheets|images|lib|javascripts?|flash)/.* - [L]
 Rewriterule ^var/([^/]+/)?storage/(images|images-versioned|sitemap)/.* - [L]
 RewriteRule ^var/([^/]+/)?cache/(texttoimage|public)/.* - [L]

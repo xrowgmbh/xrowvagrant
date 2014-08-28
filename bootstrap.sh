@@ -25,11 +25,17 @@ yum -y install redhat-lsb which
 
 # needed for ez cluster
 #yum -y install gfs2-utils nfs-utils rpcbind lvm2-cluster
-yum -y install xrow-zend xrow-zend-packages
+
 yum -y remove mlocate
 yum -y --enablerepo=xrow-opt install ezcluster
 yum -y install ezpublish
 yum -y install ezlupdate
+
+# Plattform UI requirements
+yum -y install nodejs npm nodejs-grunt freetype fontconfig
+npm install -g grunt-cli yuidocjs grover
+npm install -g bower
+brew update && brew install phantomjs
 
 /etc/init.d/vboxadd setup
 
