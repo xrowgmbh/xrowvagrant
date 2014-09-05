@@ -34,14 +34,17 @@ EOL
 composer update
 composer require --prefer-dist ezsystems/ezfind-ls:5.3.*
 
-php ezpublish/console assets:install --symlink web
-php ezpublish/console ezpublish:legacy:assets_install --symlink web
-php ezpublish/console assetic:dump web
+php ezpublish/console assets:install --relative web
+php ezpublish/console ezpublish:legacy:assets_install --relative web
 php ezpublish/console assetic:dump --env=prod web
 composer dump-autoload --optimize
 
 wget --no-check-certificate -O web/robots.txt https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/robots.txt
 wget --no-check-certificate -O web/.htaccess https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/.htaccess
+
+# overwrite because path is absolute in index_cluster.php
+rm -f web/index_cluter.php
+wget --no-check-certificate -O web/index_cluster.php https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/index_cluster.php
 
 cp -a /etc/ezcluster/tools/* .
 source ./insertdemo.sh
