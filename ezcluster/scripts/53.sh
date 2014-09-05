@@ -34,8 +34,8 @@ EOL
 composer update
 composer require --prefer-dist ezsystems/ezfind-ls:5.3.*
 
-php ezpublish/console assets:install --relative web
-php ezpublish/console ezpublish:legacy:assets_install --relative web
+php ezpublish/console assets:install --symlink --relative web
+php ezpublish/console ezpublish:legacy:assets_install --symlink --relative web
 php ezpublish/console assetic:dump --env=prod web
 composer dump-autoload --optimize
 
