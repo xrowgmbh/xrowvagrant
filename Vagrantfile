@@ -11,6 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-puppet.box"
 
     config.ssh.forward_agent = true
+	config.vm.network "public_network", bridge: 'en1: Wi-Fi (AirPort)'
     config.vm.network :forwarded_port, host: 80, guest: 80
     config.vm.network :forwarded_port, host: 8080, guest: 8080
     config.vm.network :forwarded_port, host: 443, guest: 443
