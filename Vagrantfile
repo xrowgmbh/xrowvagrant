@@ -24,8 +24,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #   config.vm.network :forwarded_port, host: 20080, guest: 20080
     private_key_path = "insecure_private_key"
 
-    config.vm.synced_folder "ezcluster", "/etc/ezcluster"
-#    config.vm.synced_folder "sites", "/var/www/sites"
+    config.vm.synced_folder "ezcluster", "/etc/ezcluster"	
+    config.vm.synced_folder "sites", "/var/www/sites", disabled: true, group: "ec2-user", owner: "ec2-user", create: true
 #    config.ssh.username = "root"
 
     # Allow symlinks
