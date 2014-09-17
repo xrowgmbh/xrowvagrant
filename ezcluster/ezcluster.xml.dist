@@ -39,7 +39,12 @@ source ./symfony.sh
             <database dsn="mysql://xrow:openpass@localhost/symfony"/>
             <hostname>symfony.*</hostname>
         </environment>
-        <environment name="5.3" docroot="web"> 
+        <environment name="5.3" docroot="web">
+			<cron timing="* * * * *" group="frequent" />
+			<cron timing="1 * * * *" group="hourly" />
+			<cron timing="1 1 * * *" group="daily" />
+			<cron timing="5 2 * * 1" group="weekly" />
+			<cron timing="5 3 1 * *" group="monthly" />
             <bootstrap>
                 <script><![CDATA[
 #!/bin/sh
