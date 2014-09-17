@@ -50,6 +50,8 @@ wget --no-check-certificate -O web/.htaccess https://raw.github.com/xrowgmbh/xro
 # overwrite because path is absolute in index_cluster.php
 rm -f web/index_cluter.php
 wget --no-check-certificate -O web/index_cluster.php https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/index_cluster.php
+rm -f web/index_rest.php
+wget --no-check-certificate -O web/index_rest.php https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/index_rest.php
 
 cp -a /etc/ezcluster/tools/* .
 source ./insertdemo.sh
