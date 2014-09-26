@@ -53,6 +53,6 @@ wget --no-check-certificate -O web/index_cluster.php https://raw.github.com/xrow
 rm -f web/index_rest.php
 wget --no-check-certificate -O web/index_rest.php https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/index_rest.php
 
-cp -a /etc/ezcluster/tools/* .
+cp -a /usr/share/ezcluster/bin/tools/* .
 source ./insertdemo.sh
 source ./cache.sh
