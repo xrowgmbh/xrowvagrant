@@ -1,3 +1,13 @@
+#SetEnvIf Request_URI ^/ezinfo/is_alive auth=1
+#AuthType Basic
+#AuthName "Password Protected Area"
+#AuthUserFile /var/www/sites/xrow.de/.htpasswd
+#Order Deny,Allow
+#Satisfy any
+#Deny from all
+#Require valid-user
+#Allow from env=auth
+
 # Protect files and directories from prying eyes.
 <Files ~ "(\.(ini\.append\.php|ini\.append|pl|sh|sql)|bin|cronjobs|update)$">
   Order deny,allow
@@ -137,12 +147,6 @@ RewriteRule ^error_docs(.*) %{DOCUMENT_ROOT}/../error_docs$1 [L]
 #RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
 #RewriteRule !index_cluster.php - [C]
 #RewriteRule ^var/([^/]+/)?(storage/images(-versioned)?|cache/public)/.* index_cluster.php
-
-RewriteCond %{HTTP_HOST} ^webdav\..*
-RewriteRule ^(.*) webdav.php [L]
-
-RewriteCond %{HTTP_HOST} ^soap\..*
-RewriteRule ^(.*) soap.php [L]
 
 #SEO tweak. Redirect all domains except for the main domain 
 ##LB sometimes comes without a http host header: RewriteCond %{HTTP_HOST} !^$ [NC]
