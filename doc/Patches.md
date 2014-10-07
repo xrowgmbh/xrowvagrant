@@ -5,11 +5,11 @@ Patch format convention: Unified diff (diff -u)
 
 Patch author numbering:
 
-1xx eZ Publish Professional Service Support
-2xx eZ Publish Support (Service Packs, Tickets)
-3xx eZ Partner XROW patches
-4xx Client's patches
-5xx Patches from other Parties
+* 1xx eZ Publish Professional Service Support
+* 2xx eZ Publish Support (Service Packs, Tickets)
+* 3xx eZ Partner XROW patches
+* 4xx Client's patches
+* 5xx Patches from other Parties
 
 Patch naming convention: 
 ( author number + patch number ) + "_" +  ( ticket number or short description ).diff
