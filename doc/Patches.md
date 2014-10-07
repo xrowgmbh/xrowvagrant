@@ -55,8 +55,7 @@ The patch documentation should include:
 ## Patch directory structure convention
 
 Patches which are part of future versions of eZ Publish should be stored in 
-directories named by the version number, eg. 5.2
-Other Patches need to be stored in the root of the folder.
+directories named by the version number, eg. 5.2. Other Patches need to be stored in the root of the folder.
 
 e.g.:
 ```
