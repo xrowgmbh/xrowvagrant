@@ -1,5 +1,7 @@
 @echo off
 
+git pull
+
 CALL del vagrant.log
 CALL vagrant destroy --force >> vagrant.log
 CALL rmdir /S /Q .vagrant

@@ -1,3 +1,13 @@
+#SetEnvIf Request_URI ^/ezinfo/is_alive auth=1
+#AuthType Basic
+#AuthName "Password Protected Area"
+#AuthUserFile /var/www/sites/xrow.de/.htpasswd
+#Order Deny,Allow
+#Satisfy any
+#Deny from all
+#Require valid-user
+#Allow from env=auth
+
 # Protect files and directories from prying eyes.
 <Files ~ "(\.(ini\.append\.php|ini\.append|pl|sh|sql)|bin|cronjobs|update)$">
   Order deny,allow
@@ -143,12 +153,6 @@ RewriteRule ^error_docs(.*) %{DOCUMENT_ROOT}/../error_docs$1 [L]
 #RewriteRule !index_cluster.php - [C]
 #RewriteRule ^var/([^/]+/)?(storage/images(-versioned)?|cache/public)/.* index_cluster.php
 
-RewriteCond %{HTTP_HOST} ^webdav\..*
-RewriteRule ^(.*) webdav.php [L]
-
-RewriteCond %{HTTP_HOST} ^soap\..*
-RewriteRule ^(.*) soap.php [L]
-
 #SEO tweak. Redirect all domains except for the main domain 
 ##LB sometimes comes without a http host header: RewriteCond %{HTTP_HOST} !^$ [NC]
 
@@ -157,6 +161,13 @@ RewriteRule ^(.*) soap.php [L]
 #RewriteCond %{HTTP_HOST} !^[0-9]{0,3}\.[0-9]{0,3}\.[0-9]{0,3}\.[0-9]{0,3}$ [NC]
 #RewriteCond %{HTTP_HOST} !^$ [NC]
 #RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [L,R=301]
+
+#Enable https for the backend domain
+#RewriteCond %{REQUEST_URI} !ezinfo/is_alive
+#RewriteCond %{REQUEST_URI} !index.php
+#RewriteCond %{HTTP_HOST} ^admin\..*$
+#RewriteCond %{HTTP:X-FORWARDED-PROTO} ^$           
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
 
 # Rewrite URLs with index.php/*
@@ -181,8 +192,6 @@ RewriteRule ^js/.*\.js - [L]
  
 
 # eZ Publish
-RewriteRule ^api/ index_rest.php [L]
-RewriteRule ^index_rest\.php - [L]
 Rewriterule ^extension/[^/]+/design/[^/]+/(stylesheets|images|lib|javascripts?|flash)/.* - [L]
 Rewriterule ^var/([^/]+/)?storage/(images|images-versioned|sitemap)/.* - [L]
 RewriteRule ^var/([^/]+/)?cache/(texttoimage|public)/.* - [L]

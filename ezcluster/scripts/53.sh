@@ -6,7 +6,6 @@ rm -Rf ezpublish5.tar.gz
 
 sed -i "s/CURLOPT_CONNECTTIMEOUT, 3/CURLOPT_CONNECTTIMEOUT, 10/g" ezpublish_legacy/kernel/setup/steps/ezstep_site_types.php
 sed -i "s/\/\/umask(/umask(/g" ezpublish/console
-sed -i "s/\/\/umask(/umask(/g" web/index_dev.php
 sed -i '/<?php/ a\
 umask(0000);' web/index.php
 # no clue!
@@ -20,6 +19,10 @@ sed -i "/^\[RepositorySettings\]/,/^\[/ {
 
 find {ezpublish/{cache,logs,config,sessions},ezpublish_legacy/{design,extension,settings,var},web} -type d | xargs chmod -R 777
 find {ezpublish/{cache,logs,config,sessions},ezpublish_legacy/{design,extension,settings,var},web} -type f | xargs chmod -R 666
+rm -f composer.json
+rm -f composer.lock
+wget --no-check-certificate -O composer.json https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/5.3/composer.json
+
 cat <<EOL > ./auth.json
 {
     "config": {
@@ -34,19 +37,22 @@ cat <<EOL > ./auth.json
 EOL
 composer update
 composer require --prefer-dist ezsystems/ezfind-ls:5.3.*
-#composer require xrow/ezpublish-tools-bundle:@dev
+#composer require xrow/ezpublish-solrdocs-bundle:dev-master
 
-
-
-php ezpublish/console assets:install --symlink web
-php ezpublish/console ezpublish:legacy:assets_install --symlink web
-php ezpublish/console assetic:dump web
+php ezpublish/console assets:install --symlink --relative web
+php ezpublish/console ezpublish:legacy:assets_install --symlink --relative web
 php ezpublish/console assetic:dump --env=prod web
 composer dump-autoload --optimize
 
 wget --no-check-certificate -O web/robots.txt https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/robots.txt
 wget --no-check-certificate -O web/.htaccess https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/.htaccess
 
-cp -a /etc/ezcluster/tools/* .
+# overwrite because path is absolute in index_cluster.php
+rm -f web/index_cluter.php
+wget --no-check-certificate -O web/index_cluster.php https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/index_cluster.php
+rm -f web/index_rest.php
+wget --no-check-certificate -O web/index_rest.php https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/index_rest.php
+
+cp -a /usr/share/ezcluster/bin/tools/* .
 source ./insertdemo.sh
 source ./cache.sh
