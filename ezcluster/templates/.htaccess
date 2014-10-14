@@ -99,6 +99,11 @@ DirectoryIndex index.php
         Header Set Age "0"
     </FilesMatch>
 </IfModule>
+<FilesMatch "\.(ttf|otf|eot|woff|svg)$">
+    <IfModule mod_headers.c>
+        Header set Access-Control-Allow-Origin "*"
+    </IfModule>
+</FilesMatch>
 <IfModule mod_expires.c>
     FileETag None
     ExpiresActive Off
