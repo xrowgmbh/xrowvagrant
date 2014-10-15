@@ -187,7 +187,7 @@ RewriteRule ^js/.*\.js - [L]
  
 
 # eZ Publish
-Rewriterule ^extension/[^/]+/design/[^/]+/(stylesheets|images|lib|javascripts?|flash)/.* - [L]
+Rewriterule ^extension/[^/]+/design/[^/]+/(stylesheets|fonts|images|lib|javascripts?|flash)/.* - [L]
 Rewriterule ^var/([^/]+/)?storage/(images|images-versioned|sitemap)/.* - [L]
 RewriteRule ^var/([^/]+/)?cache/(texttoimage|public)/.* - [L]
 RewriteRule ^var/[^/]+/cache/(stylesheets|images|javascripts?)/.* - [L]
