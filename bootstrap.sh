@@ -30,6 +30,7 @@ yum -y remove mlocate
 yum -y --enablerepo=xrow-opt install ezcluster
 yum -y install ezpublish
 yum -y install ezlupdate
+yum -y install ezfind-solr
 
 # Plattform UI requirements
 yum -y install nodejs npm nodejs-grunt freetype fontconfig
