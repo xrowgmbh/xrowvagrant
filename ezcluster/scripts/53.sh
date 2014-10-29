@@ -37,6 +37,7 @@ cat <<EOL > ./auth.json
 EOL
 composer update
 composer require --prefer-dist ezsystems/ezfind-ls:5.3.*
+composer require ezsystems/platform-ui-bundle:dev-master
 #composer require xrow/ezpublish-solrdocs-bundle:dev-master
 
 php ezpublish/console assets:install --symlink --relative web
