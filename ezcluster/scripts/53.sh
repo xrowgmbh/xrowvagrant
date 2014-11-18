@@ -19,9 +19,6 @@ sed -i "/^\[RepositorySettings\]/,/^\[/ {
 
 find {ezpublish/{cache,logs,config,sessions},ezpublish_legacy/{design,extension,settings,var},web} -type d | xargs chmod -R 777
 find {ezpublish/{cache,logs,config,sessions},ezpublish_legacy/{design,extension,settings,var},web} -type f | xargs chmod -R 666
-#rm -f composer.json
-#rm -f composer.lock
-#wget --no-check-certificate -O composer.json https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/5.3/composer.json
 
 cat <<EOL > ./auth.json
 {
@@ -37,7 +34,6 @@ cat <<EOL > ./auth.json
 EOL
 composer update
 composer require --prefer-dist ezsystems/ezfind-ls:5.3.*
-#composer require ezsystems/platform-ui-bundle:dev-master
 #composer require xrow/ezpublish-solrdocs-bundle:dev-master
 
 php ezpublish/console assets:install --symlink --relative web
