@@ -36,6 +36,11 @@ composer update
 composer require --prefer-dist ezsystems/ezfind-ls:5.3.*
 #composer require xrow/ezpublish-solrdocs-bundle:dev-master
 
+wget --no-check-certificate -O 202_EZP-23351.diff https://raw.github.com/xrowgmbh/xrowvagrant/master/patches/202_EZP-23351.diff
+echo "Applying patch $file" 
+patch -p0 --batch --ignore-whitespace < 202_EZP-23351.diff
+
+
 php ezpublish/console assets:install --symlink --relative web
 php ezpublish/console ezpublish:legacy:assets_install --symlink --relative web
 php ezpublish/console assetic:dump --env=prod web
@@ -43,12 +48,6 @@ composer dump-autoload --optimize
 
 wget --no-check-certificate -O web/robots.txt https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/robots.txt
 wget --no-check-certificate -O web/.htaccess https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/.htaccess
-
-# overwrite because path is absolute in index_cluster.php
-rm -f web/index_cluter.php
-wget --no-check-certificate -O web/index_cluster.php https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/index_cluster.php
-rm -f web/index_rest.php
-wget --no-check-certificate -O web/index_rest.php https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/index_rest.php
 
 cp -a /usr/share/ezcluster/bin/tools/* .
 source ./insertdemo.sh
