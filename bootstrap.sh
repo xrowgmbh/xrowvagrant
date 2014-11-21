@@ -53,6 +53,12 @@ ControlPath /tmp/%r@%h:%p
 ControlPersist yes
 EOL
 chown ec2-user:ec2-user /home/ec2-user/.ssh/config
+cat <<EOL > /home/ec2-user/.gitconfig
+[core]
+    filemode = false
+EOL
+
+
 
 cd /etc/yum.repos.d
 sudo wget http://www.hop5.in/yum/el6/hop5.repo
