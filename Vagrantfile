@@ -32,6 +32,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #    config.vm.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/cross-compiler", "1"]
 
     config.vm.provider "virtualbox" do |v|
-        v.customize ["modifyvm", :id, "--memory", "4096"]
+        v.memory = 4096
+        v.cpus = 2
     end
 end
