@@ -39,7 +39,7 @@ parameters:
 EOL
 
 composer require ezsystems/platform-ui-bundle:dev-master
-cd vendor/ezsystems/platform-ui-bundle && bower -s install && cd -
+#cd vendor/ezsystems/platform-ui-bundle && bower -s install && cd -
 #composer require xrow/ezpublish-tools-bundle:@dev
 #composer require xrowgmbh/ezpublish-event-ls:dev-master
 #composer require xrowgmbh/ezpublish-formgenerator-ls:dev-master
