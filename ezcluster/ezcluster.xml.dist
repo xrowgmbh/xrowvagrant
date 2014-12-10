@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <aws github-token="cfe67fdcc2ab2b65b7f00ace13e921e1ee74f7df" revision="1">
     <cluster lb="xrow" update="yes">
-		<instance name="localhost">
-			<role>web</role>
-			<role>admin</role>
-			<!-- <role>storage</role> -->
-			<role>solr</role>
-			<role>database</role>
-			<role>dev</role>
+        <instance name="localhost">
+            <role>web</role>
+            <role>admin</role>
+            <!-- <role>storage</role> -->
+            <role>solr</role>
+            <role>database</role>
+            <role>dev</role>
         </instance>
-		<rpm>ezfind-solr</rpm>
-		<database-setting name="wait_timeout">50</database-setting>
-		<environment name="symfony" docroot="web"> 
-		    <bootstrap>
+        <rpm>ezfind-solr</rpm>
+        <database-setting name="wait_timeout">50</database-setting>
+        <environment name="symfony" docroot="web"> 
+            <bootstrap>
                 <script><![CDATA[
 #!/bin/sh
 
@@ -40,11 +40,11 @@ source ./symfony.sh
             <hostname>symfony.*</hostname>
         </environment>
         <environment name="5.3" docroot="web">
-			<cron timing="* * * * *" group="frequent" />
-			<cron timing="1 * * * *" group="hourly" />
-			<cron timing="1 1 * * *" group="daily" />
-			<cron timing="5 2 * * 1" group="weekly" />
-			<cron timing="5 3 1 * *" group="monthly" />
+            <cron timing="* * * * *" group="frequent" />
+            <cron timing="1 * * * *" group="hourly" />
+            <cron timing="1 1 * * *" group="daily" />
+            <cron timing="5 2 * * 1" group="weekly" />
+            <cron timing="5 3 1 * *" group="monthly" />
             <bootstrap>
                 <script><![CDATA[
 #!/bin/sh
@@ -71,16 +71,16 @@ wget --no-check-certificate https://raw.githubusercontent.com/xrowgmbh/xrowvagra
 source ./53.sh
 ]]></script>
             </bootstrap>
-		    <database dsn="mysql://xrow:openpass@localhost/ezpublish"/>
-			<storage dsn="mysql://xrow:openpass@localhost/ezpublish" mount="/mnt/nas/live"/>
+            <database dsn="mysql://xrow:openpass@localhost/ezpublish"/>
+            <storage dsn="mysql://xrow:openpass@localhost/ezpublish" mount="/mnt/nas/live"/>
             <hostname>stable.*</hostname>
-			<hostname>localhost</hostname>
+            <hostname>localhost</hostname>
         </environment>
-		<environment name="ezpublish" docroot="web"> 
-		    <bootstrap>
+        <environment name="ezpublish" docroot="web"> 
+        <bootstrap>
                 <script><![CDATA[
 #!/bin/sh
-VERSION="5.3"
+VERSION="5.4"
 SOLR_URL="[SOLR_URL]"
 DATABASE_SERVER="[DATABASE_SERVER]"
 DATABASE_USER="[DATABASE_USER]"
@@ -103,10 +103,10 @@ wget --no-check-certificate https://raw.githubusercontent.com/xrowgmbh/xrowvagra
 source ./master.sh
 ]]></script>
             </bootstrap>
-			<database dsn="mysql://xrow:openpass@localhost/ezpublish"/>
+            <database dsn="mysql://xrow:openpass@localhost/ezpublish"/>
             <hostname>ezpublish.*</hostname>
         </environment>
-		    <environment name="plain"> 
+        <environment name="plain"> 
             <bootstrap>
                 <script><![CDATA[
 #!/bin/sh
@@ -114,13 +114,13 @@ wget --no-check-certificate https://raw.githubusercontent.com/xrowgmbh/xrowvagra
 source ./plain.sh
 ]]></script>
             </bootstrap>
-		    <database dsn="mysql://xrow:openpass@localhost/plain"/>
-			<storage dsn="mysql://xrow:openpass@localhost/plain" mount="/mnt/nas/live"/>
+            <database dsn="mysql://xrow:openpass@localhost/plain"/>
+            <storage dsn="mysql://xrow:openpass@localhost/plain" mount="/mnt/nas/live"/>
             <hostname>plain.*</hostname>
-			<hostname>localhost</hostname>
+            <hostname>localhost</hostname>
         </environment>
-		<!-- Test SSL certificate -->
-		<certificate name="ssl">
+        <!-- Test SSL certificate -->
+        <certificate name="ssl">
 -----BEGIN CERTIFICATE-----
 MIIBrzCCARgCCQCfMsCGwq31yzANBgkqhkiG9w0BAQUFADAcMRowGAYDVQQDExF3
 d3cuZXhjZWxpYW5jZS5mcjAeFw0xMjA5MDQwODU3MzNaFw0xMzA5MDQwODU3MzNa
