@@ -33,10 +33,10 @@ cat <<EOL > ./auth.json
     }
 }
 EOL
-composer update
-composer require --prefer-dist ezsystems/ezfind-ls:5.3.*
-#composer require ezsystems/platform-ui-bundle:dev-master
-#composer require xrow/ezpublish-solrdocs-bundle:dev-master
+composer -n update
+composer -n require --prefer-dist ezsystems/ezfind-ls:5.3.*
+#composer -n require ezsystems/platform-ui-bundle:dev-master
+#composer -n require xrow/ezpublish-solrdocs-bundle:dev-master
 
 wget --no-check-certificate -O 202_EZP-23351.diff https://raw.github.com/xrowgmbh/xrowvagrant/master/patches/202_EZP-23351.diff
 echo "Applying patch $file" 
