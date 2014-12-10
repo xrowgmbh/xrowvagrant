@@ -29,7 +29,7 @@ umask(0000);' web/index.php
 find {ezpublish/{cache,logs,config,sessions},ezpublish_legacy/{design,extension,settings,var},web} -type d | xargs chmod -R 777
 find {ezpublish/{cache,logs,config,sessions},ezpublish_legacy/{design,extension,settings,var},web} -type f | xargs chmod -R 666
 
-RANDOM=´openssl rand -base64 32´
+RANDOM=´/usr/bin/openssl rand -base64 32´
 cat <<EOL > ./ezpublish/config/parameters.yml
 # This file is auto-generated during the composer install
 parameters:
