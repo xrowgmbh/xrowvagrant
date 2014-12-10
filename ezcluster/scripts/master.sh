@@ -1,7 +1,7 @@
 #!/bin/sh
 
 COMPOSER_NO_INTERACTION=1
-VERSION=5.3
+VERSION=5.4
 
 rm -Rf * .git .gitignore .travis.yml
 git clone --depth 1 https://github.com/ezsystems/ezpublish-community.git .
