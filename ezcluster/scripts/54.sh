@@ -38,10 +38,11 @@ composer -n require --prefer-dist ezsystems/ezfind-ls:5.3.*
 #composer -n require ezsystems/platform-ui-bundle:dev-master
 #composer -n require xrow/ezpublish-solrdocs-bundle:dev-master
 
-php ezpublish/console assets:install --symlink --relative web
-php ezpublish/console ezpublish:legacy:assets_install --symlink --relative web
-php ezpublish/console assetic:dump --env=prod web
-composer dump-autoload --optimize
+chmod 755 ezpublish/console
+ezpublish/console -n assets:install --symlink --relative web
+ezpublish/console -n ezpublish:legacy:assets_install --symlink --relative web
+ezpublish/console -n assetic:dump --env=prod web
+composer -n dump-autoload --optimize
 
 wget --no-check-certificate -O web/robots.txt https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/robots.txt
 wget --no-check-certificate -O web/.htaccess https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/.htaccess

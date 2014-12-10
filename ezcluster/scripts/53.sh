@@ -42,11 +42,11 @@ wget --no-check-certificate -O 202_EZP-23351.diff https://raw.github.com/xrowgmb
 echo "Applying patch $file" 
 patch -p0 --batch --ignore-whitespace < 202_EZP-23351.diff
 
-
-php ezpublish/console assets:install --symlink --relative web
-php ezpublish/console ezpublish:legacy:assets_install --symlink --relative web
-php ezpublish/console assetic:dump --env=prod web
-composer dump-autoload --optimize
+chmod 755 ezpublish/console
+ezpublish/console assets:install --symlink --relative web
+ezpublish/console ezpublish:legacy:assets_install --symlink --relative web
+ezpublish/console assetic:dump --env=prod web
+composer -n dump-autoload --optimize
 
 wget --no-check-certificate -O web/robots.txt https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/robots.txt
 wget --no-check-certificate -O web/.htaccess https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/.htaccess

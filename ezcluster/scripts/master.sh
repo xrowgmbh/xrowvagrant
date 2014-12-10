@@ -50,11 +50,12 @@ cd vendor/ezsystems/platform-ui-bundle && bower -s install && cd -
 #composer update
 #php vendor/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php ezpublish
 
-php ezpublish/console assets:install --symlink web
-php ezpublish/console ezpublish:legacy:assets_install --symlink web
-php ezpublish/console assetic:dump web
-php ezpublish/console assetic:dump --env=prod web
-composer dump-autoload --optimize
+chmod 755 ezpublish/console
+ezpublish/console -n assets:install --symlink web
+ezpublish/console -n ezpublish:legacy:assets_install --symlink web
+ezpublish/console -n assetic:dump web
+ezpublish/console -n assetic:dump --env=prod web
+composer -n dump-autoload --optimize
 
 wget --no-check-certificate -O web/robots.txt https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/robots.txt
 wget --no-check-certificate -O web/.htaccess https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/.htaccess
