@@ -1,5 +1,6 @@
 #!/bin/sh
 
+COMPOSER_NO_INTERACTION=1
 VERSION=5.3
 
 rm -Rf * .git .gitignore .travis.yml

@@ -1,5 +1,6 @@
 #!/bin/sh
 
+COMPOSER_NO_INTERACTION=1
 sudo rm -Rf * .gitignore .travis.yml
 composer -vvv create-project symfony/framework-standard-edition . 2.5.* --prefer-dist --no-interaction
 
