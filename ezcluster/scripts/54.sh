@@ -23,18 +23,16 @@ find {ezpublish/{cache,logs,config,sessions},ezpublish_legacy/{design,extension,
 
 cat <<EOL > ./auth.json
 {
-    "config": {
-        "basic-auth": {
-            "updates.ez.no": {
-                "username": "${INSTALLATION_ID}",
-                "password": "${LICENCE_KEY}"
-            }
+    "http-basic": {
+        "updates.ez.no": {
+            "username": "${INSTALLATION_ID}",
+            "password": "${LICENCE_KEY}"
         }
     }
 }
 EOL
 composer -n update
-composer -n require --prefer-dist ezsystems/ezfind-ls:5.3.*
+composer -n require --prefer-dist ezsystems/ezfind-ls:${VERSION}.*
 #composer -n require ezsystems/platform-ui-bundle:dev-master
 #composer -n require xrow/ezpublish-solrdocs-bundle:dev-master
 
