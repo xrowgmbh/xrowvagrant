@@ -33,13 +33,15 @@ cat <<EOL > ./auth.json
 EOL
 composer -n update
 composer -n require --prefer-dist ezsystems/ezfind-ls:${VERSION}.*
+composer -n require --prefer-dist ezsystems/eztags-ls
 #composer -n require ezsystems/platform-ui-bundle:dev-master
 #composer -n require xrow/ezpublish-solrdocs-bundle:dev-master
 
 chmod 755 ezpublish/console
 ezpublish/console -n assets:install --symlink --relative web
 ezpublish/console -n ezpublish:legacy:assets_install --symlink --relative web
-ezpublish/console -n assetic:dump --env=prod web
+ezpublish/console -n assetic:dump --env=prod
+ezpublish/console -n assetic:dump --env=dev
 composer -n dump-autoload --optimize
 
 wget --no-check-certificate -O web/robots.txt https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/robots.txt
