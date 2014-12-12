@@ -1,5 +1,22 @@
 #!/bin/sh
 
+if [ ! -d ./web ]; then
+  mkdir ./web
+fi
+cat <<EOL > ./web/.htaccess
+RewriteEngine On
+RewriteRule .* error.php?error=503
+EOL
+
+cat <<EOL > ./web/error.php
+<?php
+if ( !isset( \$_GET['error'] ) ){ \$_GET['error'] = 503; }
+header('HTTP/1.1 '.\$_GET['error'].' Service Temporarily Unavailable');
+header('Retry-After: 600');
+echo \$_GET['error'] . " Building try later.";
+exit();
+EOL
+
 COMPOSER_NO_INTERACTION=1
 wget -O ezpublish5.tar.gz --no-check-certificate "http://packages.xrow.com/software/5.4/ezpublish5-5.4.0-ee-bul-full.tar.gz"
 tar --strip-components=1 -xzf ezpublish5.tar.gz
