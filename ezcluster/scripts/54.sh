@@ -1,5 +1,8 @@
 #!/bin/sh
 
+set -e
+set -x
+
 if [ ! -d ./web ]; then
   mkdir ./web
 fi
@@ -57,8 +60,10 @@ composer -n require --prefer-dist ezsystems/eztags-ls
 chmod 755 ezpublish/console
 ezpublish/console -n assets:install --symlink --relative web
 ezpublish/console -n ezpublish:legacy:assets_install --symlink --relative web
+# ether
 ezpublish/console -n assetic:dump --env=prod
-ezpublish/console -n assetic:dump --env=dev
+# or
+#ezpublish/console -n assetic:dump --env=dev
 composer -n dump-autoload --optimize
 
 wget --no-check-certificate -O web/robots.txt https://raw.github.com/xrowgmbh/xrowvagrant/master/ezcluster/templates/robots.txt
