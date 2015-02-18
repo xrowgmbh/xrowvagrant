@@ -67,7 +67,7 @@ SCRIPT=`readlink -f $0`
 SCRIPTDIR=$(dirname ${SCRIPT})
 INSTALLATION_ID=""
 LICENCE_KEY=""
-wget --no-check-certificate https://raw.githubusercontent.com/xrowgmbh/xrowvagrant/5.4/build
+wget --no-check-certificate https://raw.githubusercontent.com/xrowgmbh/xrowvagrant-demodata/5.4/build
 source ./build
 ]]></script>
             </bootstrap>
