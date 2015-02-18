@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<aws github-token="cfe67fdcc2ab2b65b7f00ace13e921e1ee74f7df" revision="1">
+<aws github-token="ca4a639bdd58a9d628e1a82f6d8aefb2a73abe4e" revision="1">
     <cluster lb="xrow" update="yes">
         <instance name="localhost">
             <role>web</role>
