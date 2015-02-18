@@ -39,7 +39,7 @@ source ./symfony.sh
             <database dsn="mysql://xrow:openpass@localhost/symfony"/>
             <hostname>symfony.*</hostname>
         </environment>
-        <environment name="5.3" docroot="web">
+        <environment name="5.4" docroot="web">
             <cron timing="* * * * *" group="frequent" />
             <cron timing="1 * * * *" group="hourly" />
             <cron timing="1 1 * * *" group="daily" />
@@ -48,7 +48,7 @@ source ./symfony.sh
             <bootstrap>
                 <script><![CDATA[
 #!/bin/sh
-VERSION="5.3"
+VERSION="5.4"
 SOLR_URL="[SOLR_URL]"
 DATABASE_SERVER="[DATABASE_SERVER]"
 DATABASE_USER="[DATABASE_USER]"
@@ -67,8 +67,8 @@ SCRIPT=`readlink -f $0`
 SCRIPTDIR=$(dirname ${SCRIPT})
 INSTALLATION_ID=""
 LICENCE_KEY=""
-wget --no-check-certificate https://raw.githubusercontent.com/xrowgmbh/xrowvagrant/master/ezcluster/scripts/53.sh
-source ./53.sh
+wget --no-check-certificate https://raw.githubusercontent.com/xrowgmbh/xrowvagrant/5.4/build
+source ./build
 ]]></script>
             </bootstrap>
             <database dsn="mysql://xrow:openpass@localhost/ezpublish"/>
